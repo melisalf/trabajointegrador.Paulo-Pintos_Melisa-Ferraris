@@ -1,49 +1,41 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.dao.impl;
 
+
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dao.H2Connection;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dao.IDao;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Domicilio;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Turno;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Odontologo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Component
-public class PacienteDaoH2 implements IDao<Paciente> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(PacienteDaoH2.class);
-
+public class OdontologoDaoH2 implements IDao<Odontologo> {
+    private static Logger LOGGER = LoggerFactory.getLogger(OdontologoDaoH2.class);
 
     @Override
-    public Paciente guardar(Paciente paciente) {
+    public Odontologo guardar(Odontologo odontologo) {
         Connection connection = null;
         try {
             connection = H2Connection.getConnection();
             connection.setAutoCommit(false);
 
-            DomicilioDaoH2 domicilioDaoH2 = new DomicilioDaoH2();
-            domicilioDaoH2.guardar(paciente.getDomicilio());
-
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO PACIENTES (NOMBRE, APELLIDO, DNI, FECHA, DOMICILIO_ID) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, paciente.getNombre());
-            ps.setString(2, paciente.getApellido());
-            ps.setString(3, paciente.getDni());
-            ps.setDate(4, Date.valueOf(paciente.getFechaIngreso()));
-            ps.setInt(5, paciente.getDomicilio().getId());
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO ODONTOLOGOS (MATRICULA, NOMBRE, APELLIDO) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, odontologo.getMatricula());
+            ps.setString(2, odontologo.getNombre());
+            ps.setString(3, odontologo.getApellido());
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             while (rs.next()) {
-                paciente.setId(rs.getInt(1));
+                odontologo.setId(rs.getInt(1));
             }
 
             connection.commit();
-            LOGGER.info("Se ha registrado el paciente: " + paciente);
+            LOGGER.info("Se ha registrado el odontologo: " + odontologo);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -67,24 +59,24 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             }
         }
 
-        return paciente;
+        return odontologo;
     }
 
     @Override
-    public List<Paciente> listarTodos() {
+    public List<Odontologo> listarTodos() {
         Connection connection = null;
-        List<Paciente> pacientes = new ArrayList<>();
+        List<Odontologo> odontologos = new ArrayList<>();
 
         try {
             connection = H2Connection.getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM PACIENTES");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM ODONTOLOGOS");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Paciente paciente = crearObjetoPaciente(rs);
-                pacientes.add(paciente);
+                Odontologo odontologo = crearObjetoOdontologo(rs);
+                odontologos.add(odontologo);
             }
 
-            LOGGER.info("Listado de todos los pacientes: " + pacientes);
+            LOGGER.info("Listado de todos los odontologos: " + odontologos);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -98,7 +90,7 @@ public class PacienteDaoH2 implements IDao<Paciente> {
                 ex.printStackTrace();
             }
         }
-        return pacientes;
+        return odontologos;
     }
 
     @Override
@@ -108,11 +100,11 @@ public class PacienteDaoH2 implements IDao<Paciente> {
             connection = H2Connection.getConnection();
             connection.setAutoCommit(false);
 
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM PACIENTES WHERE ID = ?");
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM ODONTOLOGOS WHERE ID = ?");
             ps.setInt(1, id);
             ps.execute();
             connection.commit();
-            LOGGER.info("Se ha eliminado el paciente con id: " + id);
+            LOGGER.info("Se ha eliminado el odontologo con id: " + id);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -135,23 +127,21 @@ public class PacienteDaoH2 implements IDao<Paciente> {
                 ex.printStackTrace();
             }
         }
-
     }
 
     @Override
-    public Paciente buscarPorId(int id) {
+    public Odontologo buscarPorId(int id) {
         Connection connection = null;
-        Paciente paciente = null;
+        Odontologo odontologo = null;
         try {
             connection = H2Connection.getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM PACIENTES WHERE ID = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM ODONTOLOGOS WHERE ID = ?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                paciente = crearObjetoPaciente(rs);
+                odontologo = crearObjetoOdontologo(rs);
             }
-            if(paciente != null)LOGGER.info("Se ha encontrado el paciente con id " + id + ": " + paciente);
-
+            LOGGER.info("Se ha encontrado el odontologo con id " + id + ": " + odontologo);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -164,56 +154,30 @@ public class PacienteDaoH2 implements IDao<Paciente> {
                 ex.printStackTrace();
             }
         }
-        return paciente;
+        return odontologo;
     }
 
     @Override
-    public Paciente buscarPorCriterio(String criterio) {
-        Connection connection = null;
-        Paciente paciente = null;
-        try {
-            connection = H2Connection.getConnection();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM PACIENTES WHERE DNI = ?");
-            ps.setString(1, criterio);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                paciente = crearObjetoPaciente(rs);
-            }
-            LOGGER.info("Se ha encontrado el paciente con dni " + criterio + ": " + paciente);
-
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (Exception ex) {
-                LOGGER.error("Ha ocurrido un error al intentar cerrar la bdd. " + ex.getMessage());
-                ex.printStackTrace();
-            }
-        }
-        return paciente;
+    public Odontologo buscarPorCriterio(String criterio) {
+        return null;
     }
 
     @Override
-    public Paciente actualizar(Paciente paciente) {
+    public Odontologo actualizar(Odontologo odontologo) {
         Connection connection = null;
 
         try {
             connection = H2Connection.getConnection();
             connection.setAutoCommit(false);
 
-            PreparedStatement ps = connection.prepareStatement("UPDATE PACIENTES SET NOMBRE = ?, APELLIDO = ?, DNI = ?, FECHA = ?, DOMICILIO_ID = ? WHERE ID = ?");
-            ps.setString(1, paciente.getNombre());
-            ps.setString(2, paciente.getApellido());
-            ps.setString(3, paciente.getDni());
-            ps.setDate(4, Date.valueOf(paciente.getFechaIngreso()));
-            ps.setInt(5, paciente.getDomicilio().getId());
-
-            ps.setInt(6, paciente.getId());
+            PreparedStatement ps = connection.prepareStatement("UPDATE ODONTOLOGOS SET MATRICULA = ?, NOMBRE = ?, APELLIDO = ? WHERE ID = ?");
+            ps.setString(1, odontologo.getMatricula());
+            ps.setString(2, odontologo.getNombre());
+            ps.setString(3, odontologo.getApellido());
+            ps.setInt(4, odontologo.getId());
             ps.execute();
             connection.commit();
-            LOGGER.warn("El paciente con id " + paciente.getId() + " ha sido actualizado. " + paciente);
+            LOGGER.warn("El odontologo con id " + odontologo.getId() + " ha sido actualizado. " + odontologo);
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -236,19 +200,15 @@ public class PacienteDaoH2 implements IDao<Paciente> {
                 ex.printStackTrace();
             }
         }
-        return paciente;
+        return odontologo;
     }
 
+    private Odontologo crearObjetoOdontologo(ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String nombre = resultSet.getString("nombre");
+        String apellido = resultSet.getString("apellido");
+        String matricula = resultSet.getString("matricula");
 
-    private Paciente crearObjetoPaciente(ResultSet resultSet) throws SQLException {
-        int idPaciente = resultSet.getInt("id");
-        String nombrePaciente = resultSet.getString("nombre");
-        String apellidoPaciente = resultSet.getString("apellido");
-        String dniPaciente = resultSet.getString("dni");
-        LocalDate fechaIngreso = resultSet.getDate("fecha").toLocalDate();
-        Domicilio domicilioPaciente = new DomicilioDaoH2().buscarPorId(resultSet.getInt("domicilio_id"));
-        return new Paciente(idPaciente, nombrePaciente, apellidoPaciente, dniPaciente, fechaIngreso, domicilioPaciente);
+        return new Odontologo(id, matricula, nombre, apellido);
     }
-
-
 }
