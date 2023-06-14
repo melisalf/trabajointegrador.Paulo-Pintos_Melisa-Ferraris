@@ -1,6 +1,6 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris;
 
-import com.trabajointegrador.PauloPintos_MelisaFerraris.dao.H2Connection;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.H2Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

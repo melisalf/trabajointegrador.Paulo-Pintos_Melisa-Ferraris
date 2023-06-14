@@ -9,8 +9,10 @@ public class Paciente {
     private String dni;
     private LocalDate fechaIngreso;
     private Domicilio domicilio;
-    private Turno turno;
 
+public Paciente(){
+
+}
 
     public Paciente(int id, String nombre, String apellido, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.id = id;
@@ -27,16 +29,10 @@ public class Paciente {
         this.dni = dni;
         this.fechaIngreso = fechaIngreso;
         this.domicilio = domicilio;
-        this.turno = turno;
+
     }
 
-    public Turno getTurno() {
-        return turno;
-    }
 
-    public void setTurno(Turno turno) {
-        this.turno = turno;
-    }
 
     public int getId() {
         return id;
@@ -88,6 +84,6 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return "Id: " + id + " - Nombre: " + nombre + " - Apellido: " + apellido + " - DNI: " + dni + " - Fechas de ingreso: " + fechaIngreso + " - Domicilio: " + domicilio + " - Turno: " + turno;
+        return "Id: " + id + " - Nombre: " + nombre + " - Apellido: " + apellido + " - DNI: " + dni + " - Fechas de ingreso: " + fechaIngreso + " - Domicilio: " + domicilio;
     }
 }

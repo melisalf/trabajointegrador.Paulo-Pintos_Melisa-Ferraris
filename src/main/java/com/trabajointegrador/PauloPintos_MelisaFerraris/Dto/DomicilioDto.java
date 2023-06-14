@@ -1,35 +1,23 @@
-package com.trabajointegrador.PauloPintos_MelisaFerraris.entity;
+package com.trabajointegrador.PauloPintos_MelisaFerraris.Dto;
 
-public class Domicilio {
-    private int id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class DomicilioDto {
     private String calle;
     private int numero;
     private String localidad;
+
     private String provincia;
-public Domicilio (){
+
+public DomicilioDto() {
 
 }
-    public Domicilio(int id, String calle, int numero, String localidad, String provincia) {
-        this.id = id;
+public DomicilioDto(String calle, int numero, String localidad, String provincia) {
         this.calle = calle;
         this.numero = numero;
         this.localidad = localidad;
         this.provincia = provincia;
-    }
-
-    public Domicilio(String calle, int numero, String localidad, String provincia) {
-        this.calle = calle;
-        this.numero = numero;
-        this.localidad = localidad;
-        this.provincia = provincia;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getCalle() {
@@ -63,9 +51,8 @@ public Domicilio (){
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
-
     @Override
     public String toString() {
-        return "Id: " + id + " - Calle: " + calle + " - Numero: " + numero + " - Localidad: " + localidad + " - Provincia: " + provincia;
+        return  "Calle: " + calle + " - Numero: " + numero + " - Localidad: " + localidad + " - Provincia: " + provincia;
     }
 }

@@ -1,5 +1,6 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.controller;
 
+import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.PacienteDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.IPacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,25 +31,25 @@ public class PacienteController {
 
     //POST
     @PostMapping("/registrar")
-    public Paciente registrarPaciente(@RequestBody Paciente paciente) {
+    public PacienteDto registrarPaciente(@RequestBody Paciente paciente) {
         return pacienteService.guardarPaciente(paciente);
 
     }
 
     //PUT
     @PutMapping("/actualizar")
-    public Paciente actualizarPaciente(@RequestBody Paciente paciente){
+    public PacienteDto actualizarPaciente(@RequestBody Paciente paciente){
         return pacienteService.actualizarPaciente(paciente);
     }
 
     //GET
     @GetMapping
-    public List<Paciente> listarTodos(){
+    public List<PacienteDto> listarTodos(){
         return pacienteService.listarPacientes();
     }
 
     @GetMapping("/{id}")
-    public Paciente buscarPacientePorId(@PathVariable int id){
+    public PacienteDto buscarPacientePorId(@PathVariable int id){
         return pacienteService.buscarPacientePorId(id);
     }
 

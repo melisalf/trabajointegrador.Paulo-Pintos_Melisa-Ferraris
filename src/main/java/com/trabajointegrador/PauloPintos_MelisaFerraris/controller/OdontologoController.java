@@ -1,5 +1,6 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.controller;
 
+import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.OdontologoDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Odontologo;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl.OdontologoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +30,24 @@ public class OdontologoController {
 
     //GET
     @GetMapping()
-    public List<Odontologo> listarOdontologos(){
+    public List<OdontologoDto> listarOdontologos(){
         return odontologoService.listarOdontologos();
     }
 
     @GetMapping("/{id}")
-    public Odontologo buscarOdontologoPorId(@PathVariable int id){
+    public OdontologoDto buscarOdontologoPorId(@PathVariable int id){
         return odontologoService.buscarOdontologoPorId(id);
     }
 
     //POST
     @PostMapping("/registrar")
-    public Odontologo registrarOdontologo(@RequestBody Odontologo odontologo){
+    public OdontologoDto registrarOdontologo(@RequestBody Odontologo odontologo){
         return odontologoService.registrarOdontologo(odontologo);
     }
 
     //PUT
     @PutMapping("/actualizar")
-    public Odontologo actualizarOdontologo(@RequestBody Odontologo odontologo){
+    public OdontologoDto actualizarOdontologo(@RequestBody Odontologo odontologo){
         return odontologoService.actualizarOdontologo(odontologo);
     }
 
