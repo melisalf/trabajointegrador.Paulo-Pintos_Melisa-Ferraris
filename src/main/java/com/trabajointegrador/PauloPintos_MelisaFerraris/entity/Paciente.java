@@ -1,20 +1,43 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.entity;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import java.time.LocalDate;
+@Entity
+@Table( name="PACIENTES" )
 public class Paciente {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Size (max = 50, message = "Maximo De 50 Caracteres")
+    @NotNull
     private String nombre;
+
+    @Size (max = 50, message = "Maximo De 50 Caracteres")
+    @NotNull
     private String apellido;
+
+    @Size (max = 10, message = "Maximo De 15 Caracteres")
+    @NotNull
+    @Pattern(regexp="[/d]")
     private String dni;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @FutureOrPresent
     private LocalDate fechaIngreso;
+
+    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="domicilio_id")
     private Domicilio domicilio;
 
 public Paciente(){
 
 }
 
-    public Paciente(int id, String nombre, String apellido, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
+
+    public Paciente(Long id, String nombre, String apellido, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -34,13 +57,10 @@ public Paciente(){
 
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;

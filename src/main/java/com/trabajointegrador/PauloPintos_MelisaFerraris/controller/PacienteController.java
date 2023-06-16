@@ -49,13 +49,13 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    public PacienteDto buscarPacientePorId(@PathVariable int id){
+    public PacienteDto buscarPacientePorId(@PathVariable Long id){
         return pacienteService.buscarPacientePorId(id);
     }
 
     //DELETE
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarPaciente(@PathVariable int id){
+    public void eliminarPaciente(@PathVariable Long id){
         pacienteService.eliminarPaciente(id);
     }
 

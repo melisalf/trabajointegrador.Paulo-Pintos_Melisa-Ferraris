@@ -1,77 +1,96 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.DomicilioDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.PacienteDto;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.IDao;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Domicilio;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.impl.PacienteRepository;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.IPacienteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
+
 import java.util.List;
 
 @Service
 public class PacienteService implements IPacienteService {
-    private IDao<Paciente> pacienteIDao;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PacienteService.class);
+    private PacienteRepository pacienteRepository;
     private ObjectMapper mapper = new ObjectMapper();
     @Autowired
-    public PacienteService(IDao<Paciente> pacienteIDao, ObjectMapper mapper) {
-        this.pacienteIDao = pacienteIDao;
+
+    public PacienteService(PacienteRepository pacienteRepository, ObjectMapper mapper) {
+        this.pacienteRepository = pacienteRepository;
         this.mapper = mapper;
     }
 
 
-
     @Override
     public List<PacienteDto> listarPacientes() {
-        List<Paciente> pacientes= pacienteIDao.listarTodos();
-        List<PacienteDto> pacientesDtos= new ArrayList<>();
+        List<Paciente> pacientes = pacienteRepository.findAll();
+        List<PacienteDto> pacienteDtos = pacientes.stream().map(paciente -> {
+            Domicilio dom = paciente.getDomicilio();
+            DomicilioDto domicilioDto = mapper.convertValue(dom, DomicilioDto.class);
+            return new PacienteDto(paciente.getId(), paciente.getNombre(), paciente.getApellido(), paciente.getDni(), paciente.getFechaIngreso(), domicilioDto);
+        }).toList();
+        LOGGER.info("Lista de todos los pacientes :{}", pacienteDtos);
+        return pacienteDtos;
 
-
-        for (Paciente paciente : pacientes){
-            PacienteDto pacienteDto= mapper.convertValue(pacientesDtos, PacienteDto.class);
-            pacientesDtos.add(pacienteDto);
-
-        }
-
-        return pacientesDtos;
     }
 
-
     @Override
-    public PacienteDto buscarPacientePorId(int id) {
-      Paciente paciente = pacienteIDao.buscarPorId(id);
-      PacienteDto pacienteDto = mapper.convertValue(paciente, PacienteDto.class);
-      return pacienteDto;
+    public PacienteDto buscarPacientePorId(Long id) {
+        Paciente pacienteEncontrado = pacienteRepository.findById(id).orElse(null);
+        PacienteDto pacienteDto = null;
+
+        if (pacienteEncontrado != null  ) {
+            DomicilioDto domicilioDto = mapper.convertValue(pacienteEncontrado.getDomicilio(),DomicilioDto.class);
+            pacienteDto = mapper.convertValue(pacienteEncontrado, PacienteDto.class);
+            pacienteDto.setDomicilioDto(domicilioDto);
+            LOGGER.info("Paciente Encontrado Con Id :{}", pacienteDto);
+
+        } else LOGGER.error("No Se Encontro Paciente Con El ID Indicado");
+
+
+
+        return pacienteDto;
     }
 
     @Override
     public PacienteDto guardarPaciente(Paciente paciente) {
-        Paciente pacienteGuardado = pacienteIDao.guardar(paciente);
-        PacienteDto pacienteDto = mapper.convertValue(pacienteGuardado, PacienteDto.class);
+        Paciente nuevoPaciente= pacienteRepository.save(paciente);
+        DomicilioDto domicilioDto = mapper.convertValue(nuevoPaciente.getDomicilio(),DomicilioDto.class);
+        PacienteDto nuevoPacienteDto = mapper.convertValue(nuevoPaciente, PacienteDto.class);
+        nuevoPacienteDto.setDomicilioDto(domicilioDto);
+        LOGGER.info("Paciente Guardado Con Exito {}", nuevoPacienteDto);
 
-
-
-
-        return pacienteDto;
+        return nuevoPacienteDto;
     }
 
     @Override
     public PacienteDto actualizarPaciente(Paciente paciente) {
-        Paciente pacienteActualizado = pacienteIDao.actualizar(paciente);
-        PacienteDto pacienteDto = mapper.convertValue(pacienteActualizado, PacienteDto.class);
+        Paciente pacienteActualizado = pacienteRepository.findById(paciente.getId()).orElse(null);
+        PacienteDto pacienteActualizadoDto= null;
+        if (pacienteActualizado != null  ) {
+            DomicilioDto domicilioDto = mapper.convertValue(pacienteActualizado.getDomicilio(),DomicilioDto.class);
+            pacienteActualizadoDto = mapper.convertValue(pacienteActualizado, PacienteDto.class);
+            pacienteActualizadoDto.setDomicilioDto(domicilioDto);
+            LOGGER.info("Paciente Actualizado Con Exito  :{}", pacienteActualizadoDto);}
+        else LOGGER.error("No Se Pudo Actualizar Los Datos Del Paciente");
 
 
-        return pacienteDto;
+        return pacienteActualizadoDto;
     }
 
     @Override
-    public void eliminarPaciente(int id) {
-        pacienteIDao.eliminar(id);
+    public void eliminarPaciente(Long id) {
+
+        pacienteRepository.deleteById(id);
+        LOGGER.warn("Paciente Eliminado Con Exito");
 
     }
-
-
-
 }

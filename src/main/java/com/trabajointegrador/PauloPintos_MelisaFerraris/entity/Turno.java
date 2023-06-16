@@ -1,10 +1,14 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.entity;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
+@Entity
+@Table(name="TURNOS")
 public class Turno {
 
-    private int id;
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    private Long id;
     private Paciente paciente;
     private LocalDateTime fechaHoraTurno;
     private Odontologo odontologo;
@@ -26,13 +30,10 @@ public Turno(){
         this.odontologo = odontologo;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public LocalDateTime getFechaHoraTurno() {
         return fechaHoraTurno;

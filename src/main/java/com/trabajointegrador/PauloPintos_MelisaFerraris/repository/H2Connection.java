@@ -12,8 +12,4 @@ public class H2Connection {
         return DriverManager.getConnection("jdbc:h2:~/Paulo-Pintos_Melisa-Ferraris;", "sa", "sa");
     }
 
-    public static Connection crearBd() throws SQLException, ClassNotFoundException {
-        Class.forName("org.h2.Driver");
-        return DriverManager.getConnection("jdbc:h2:~/Paulo-Pintos_Melisa-Ferraris;INIT=RUNSCRIPT FROM 'create.sql'", "sa", "sa");
-    }
 }
