@@ -1,12 +1,10 @@
-package com.trabajointegrador.PauloPintos_MelisaFerraris.Dto;
+package com.trabajointegrador.PauloPintos_MelisaFerraris.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Turno;
-
 import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-
 public class TurnoDto {
 
     private String paciente;
@@ -38,9 +36,8 @@ public class TurnoDto {
     }
 
     public TurnoDto(){
+    }
 
-
-}
     public TurnoDto(String paciente, String odontologo, LocalDateTime fecha) {
         this.paciente = paciente;
         this.odontologo = odontologo;

@@ -1,9 +1,12 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.controller;
 
-import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.OdontologoDto;
+
+import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.OdontologoDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Odontologo;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl.OdontologoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,25 +38,37 @@ public class OdontologoController {
     }
 
     @GetMapping("/{id}")
-    public OdontologoDto buscarOdontologoPorId(@PathVariable int id){
-        return odontologoService.buscarOdontologoPorId(id);
+    public ResponseEntity<OdontologoDto> buscarOdontologoPorId(@PathVariable Long id){
+        ResponseEntity<OdontologoDto> respuesta;
+        OdontologoDto odontologoDto = odontologoService.buscarOdontologoPorId(id);
+        if (odontologoDto != null) respuesta = new ResponseEntity<>(odontologoDto, null, HttpStatus.OK);
+        else respuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return respuesta;
     }
 
     //POST
     @PostMapping("/registrar")
-    public OdontologoDto registrarOdontologo(@RequestBody Odontologo odontologo){
-        return odontologoService.registrarOdontologo(odontologo);
+    public ResponseEntity <OdontologoDto> registrarOdontologo(@RequestBody Odontologo odontologo){
+        ResponseEntity<OdontologoDto> respuesta;
+        OdontologoDto odontologoDto = odontologoService.registrarOdontologo(odontologo);
+        if (odontologoDto != null) respuesta = new ResponseEntity<>(odontologoDto, null, HttpStatus.CREATED);
+        else respuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return respuesta;
     }
 
     //PUT
     @PutMapping("/actualizar")
-    public OdontologoDto actualizarOdontologo(@RequestBody Odontologo odontologo){
-        return odontologoService.actualizarOdontologo(odontologo);
+    public ResponseEntity <OdontologoDto> actualizarOdontologo(@RequestBody Odontologo odontologo){
+        ResponseEntity<OdontologoDto> respuesta;
+        OdontologoDto odontologoDto = odontologoService.actualizarOdontologo(odontologo);
+        if (odontologoDto != null) respuesta = new ResponseEntity<>(odontologoDto, null, HttpStatus.OK);
+        else respuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return respuesta;
     }
 
     //DELETE
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarOdontologo(@PathVariable int id){
+    public void eliminarOdontologo(@PathVariable Long id){
         odontologoService.eliminarOdontologo(id);
     }
 

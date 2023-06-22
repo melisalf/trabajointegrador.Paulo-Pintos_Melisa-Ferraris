@@ -1,9 +1,11 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.controller;
 
-import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.PacienteDto;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.PacienteDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.IPacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +20,48 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
+
+    //POST
+    @PostMapping("/registrar")
+    public ResponseEntity<PacienteDto> registrarPaciente(@RequestBody Paciente paciente) {
+        ResponseEntity<PacienteDto> respuesta;
+        PacienteDto pacienteDto = pacienteService.guardarPaciente(paciente);
+        if (pacienteDto != null) respuesta = new ResponseEntity<>(pacienteDto, null, HttpStatus.CREATED);
+        else respuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return respuesta;
+    }
+
+    //PUT
+    @PutMapping("/actualizar")
+    public ResponseEntity<PacienteDto> actualizarPaciente(@RequestBody Paciente paciente) {
+        ResponseEntity<PacienteDto> respuesta;
+        PacienteDto pacienteDto = pacienteService.actualizarPaciente(paciente);
+        if (pacienteDto != null) respuesta = new ResponseEntity<>(pacienteDto, null, HttpStatus.OK);
+        else respuesta = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return respuesta;
+    }
+
+
+    //GET LISTAR TODOS
+    @GetMapping("")
+    public List<PacienteDto> listarTodos() {
+        return pacienteService.listarPacientes();
+    }
+
+    //GET BUSCAR POR ID
+    @GetMapping("/{id}")
+    public PacienteDto buscarPacientePorId(@PathVariable Long id) {
+        return pacienteService.buscarPacientePorId(id);
+    }
+
+    //DELETE
+    @DeleteMapping("/eliminar/{id}")
+    public void eliminarPaciente(@PathVariable Long id) {
+        pacienteService.eliminarPaciente(id);
+    }
+
+}
+
     /*@GetMapping("/index")
     public String buscarPacientePorDni(Model model, @RequestParam("dni") String dni){
         Paciente paciente = pacienteService.buscarPacientePorDni(dni);
@@ -29,34 +73,3 @@ public class PacienteController {
         return "index";
     }*/
 
-    //POST
-    @PostMapping("/registrar")
-    public PacienteDto registrarPaciente(@RequestBody Paciente paciente) {
-        return pacienteService.guardarPaciente(paciente);
-
-    }
-
-    //PUT
-    @PutMapping("/actualizar")
-    public PacienteDto actualizarPaciente(@RequestBody Paciente paciente){
-        return pacienteService.actualizarPaciente(paciente);
-    }
-
-    //GET
-    @GetMapping
-    public List<PacienteDto> listarTodos(){
-        return pacienteService.listarPacientes();
-    }
-
-    @GetMapping("/{id}")
-    public PacienteDto buscarPacientePorId(@PathVariable Long id){
-        return pacienteService.buscarPacientePorId(id);
-    }
-
-    //DELETE
-    @DeleteMapping("/eliminar/{id}")
-    public void eliminarPaciente(@PathVariable Long id){
-        pacienteService.eliminarPaciente(id);
-    }
-
-}

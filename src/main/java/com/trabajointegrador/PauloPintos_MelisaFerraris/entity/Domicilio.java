@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="DOMICILIOS")
-
 public class Domicilio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,9 +12,9 @@ public class Domicilio {
     private int numero;
     private String localidad;
     private String provincia;
-public Domicilio (){
+    public Domicilio (){
+    }
 
-}
     public Domicilio(Long id, String calle, int numero, String localidad, String provincia) {
         this.id = id;
         this.calle = calle;

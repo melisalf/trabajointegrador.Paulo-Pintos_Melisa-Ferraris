@@ -1,7 +1,7 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.controller;
 
 
-import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.TurnoDto;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.TurnoDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Turno;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.ITurnoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,9 @@ public class TurnoController {
         this.turnoService = turnoService;
     }
 
-    //GET
+    //GET BUSCAR POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<TurnoDto> buscarTurnoPorId(@PathVariable int id) {
+    public ResponseEntity<TurnoDto> buscarTurnoPorId(@PathVariable Long id) {
         ResponseEntity<TurnoDto> respuesta;
         TurnoDto turnoDto = turnoService.buscarTurnoPorId(id);
         if (turnoDto != null) respuesta = new ResponseEntity<>(turnoDto, null, HttpStatus.OK);
@@ -32,12 +32,13 @@ public class TurnoController {
         return respuesta;
     }
 
+    //GET LISTAR TODOS
     @GetMapping()
     public List<TurnoDto> listarTurnos() {
         return turnoService.listarTodos();
     }
 
-    //POST
+    //POST REGISTRAR
     @PostMapping("/registrar")
     public ResponseEntity<TurnoDto> guardarTurno(@RequestBody Turno turno) {
         ResponseEntity<TurnoDto> respuesta;
@@ -49,7 +50,7 @@ public class TurnoController {
 
     //DELETE
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarTurno(@PathVariable int id) {
+    public void eliminarTurno(@PathVariable Long id) {
         turnoService.eliminarTurno(id);
     }
 

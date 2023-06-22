@@ -5,15 +5,14 @@ import javax.persistence.*;
 @Entity
 @Table(name="ODONTOLOGOS")
 public class Odontologo {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String matricula;
     private String nombre;
     private String apellido;
 
     public Odontologo(){
-
     }
 
    /* public Odontologo(Long id, String matricula, String nombre, String apellido) {
@@ -32,7 +31,6 @@ public class Odontologo {
     public Long getId() {
         return id;
     }
-
 
     public String getMatricula() {
         return matricula;

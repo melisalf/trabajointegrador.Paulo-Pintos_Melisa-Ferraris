@@ -1,21 +1,19 @@
-package com.trabajointegrador.PauloPintos_MelisaFerraris.Dto;
+package com.trabajointegrador.PauloPintos_MelisaFerraris.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DomicilioDto {
-
     private Long id;
     private String calle;
     private int numero;
     private String localidad;
-
     private String provincia;
 
-public DomicilioDto() {
+    public DomicilioDto() {
 
-}
-public DomicilioDto(Long id,String calle, int numero, String localidad, String provincia) {
+    }
+    public DomicilioDto(Long id,String calle, int numero, String localidad, String provincia) {
         this.id= id;
         this.calle = calle;
         this.numero = numero;
@@ -58,4 +56,5 @@ public DomicilioDto(Long id,String calle, int numero, String localidad, String p
     public String toString() {
         return  "Calle: " + calle + " - Numero: " + numero + " - Localidad: " + localidad + " - Provincia: " + provincia;
     }
+
 }

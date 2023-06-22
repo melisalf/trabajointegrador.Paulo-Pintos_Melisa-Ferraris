@@ -1,4 +1,4 @@
-package com.trabajointegrador.PauloPintos_MelisaFerraris.Dto;
+package com.trabajointegrador.PauloPintos_MelisaFerraris.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -11,11 +11,11 @@ public class PacienteDto {
     private String apellido;
     private String dni;
     private LocalDate fechaDeIngreso;
-
     private DomicilioDto domicilioDto;
-public PacienteDto(){
 
-}
+    public PacienteDto(){
+    }
+
     public PacienteDto(Long id,String nombre, String apellido, String dni, LocalDate fechaDeIngreso, DomicilioDto domicilioDto) {
         this.id = id;
         this.nombre = nombre;

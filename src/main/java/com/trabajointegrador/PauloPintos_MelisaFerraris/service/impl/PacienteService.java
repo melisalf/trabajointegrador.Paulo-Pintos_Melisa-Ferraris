@@ -1,8 +1,8 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.DomicilioDto;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.Dto.PacienteDto;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.DomicilioDto;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.PacienteDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Domicilio;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.impl.PacienteRepository;
@@ -21,8 +21,8 @@ public class PacienteService implements IPacienteService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PacienteService.class);
     private PacienteRepository pacienteRepository;
     private ObjectMapper mapper = new ObjectMapper();
-    @Autowired
 
+    @Autowired
     public PacienteService(PacienteRepository pacienteRepository, ObjectMapper mapper) {
         this.pacienteRepository = pacienteRepository;
         this.mapper = mapper;
@@ -55,8 +55,6 @@ public class PacienteService implements IPacienteService {
 
         } else LOGGER.error("No Se Encontro Paciente Con El ID Indicado");
 
-
-
         return pacienteDto;
     }
 
@@ -73,24 +71,27 @@ public class PacienteService implements IPacienteService {
 
     @Override
     public PacienteDto actualizarPaciente(Paciente paciente) {
-        Paciente pacienteActualizado = pacienteRepository.findById(paciente.getId()).orElse(null);
-        PacienteDto pacienteActualizadoDto= null;
-        if (pacienteActualizado != null  ) {
-            DomicilioDto domicilioDto = mapper.convertValue(pacienteActualizado.getDomicilio(),DomicilioDto.class);
-            pacienteActualizadoDto = mapper.convertValue(pacienteActualizado, PacienteDto.class);
+        Paciente pacienteAActualizar = pacienteRepository.findById(paciente.getId()).orElse(null);
+        PacienteDto pacienteActualizadoDto = null;
+
+        if (pacienteAActualizar != null) {
+            pacienteAActualizar = paciente;
+            pacienteRepository.save(pacienteAActualizar);
+
+            DomicilioDto domicilioDto = mapper.convertValue(pacienteAActualizar.getDomicilio(), DomicilioDto.class);
+            pacienteActualizadoDto = mapper.convertValue(pacienteAActualizar, PacienteDto.class);
             pacienteActualizadoDto.setDomicilioDto(domicilioDto);
-            LOGGER.info("Paciente Actualizado Con Exito  :{}", pacienteActualizadoDto);}
-        else LOGGER.error("No Se Pudo Actualizar Los Datos Del Paciente");
-
-
+            LOGGER.info("Paciente actualizado con exito: {}",pacienteActualizadoDto);
+        } else LOGGER.error("No fue posible actualizar los datos ya que el paciente no se encuentra registrado");
         return pacienteActualizadoDto;
     }
 
     @Override
     public void eliminarPaciente(Long id) {
-
-        pacienteRepository.deleteById(id);
-        LOGGER.warn("Paciente Eliminado Con Exito");
-
+        Paciente pacienteEliminado = pacienteRepository.findById(id).orElse(null);
+        if (pacienteEliminado != null) {
+            pacienteRepository.deleteById(id);
+            LOGGER.warn("Paciente Eliminado Con Exito");
+        }else LOGGER.error("No se pudo eliminar el paciente");
     }
 }
