@@ -3,6 +3,7 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.controller;
 
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.TurnoDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Turno;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.ResourceNotFoundException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.ITurnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class TurnoController {
 
     //POST REGISTRAR
     @PostMapping("/registrar")
-    public ResponseEntity<TurnoDto> guardarTurno(@RequestBody Turno turno) {
+    public ResponseEntity<TurnoDto> guardarTurno(@RequestBody Turno turno) throws ResourceNotFoundException{
         ResponseEntity<TurnoDto> respuesta;
         TurnoDto turnoDto = turnoService.guardarTurno(turno);
         if (turnoDto != null) respuesta = new ResponseEntity<>(turnoDto, null, HttpStatus.CREATED);
@@ -50,7 +51,7 @@ public class TurnoController {
 
     //DELETE
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarTurno(@PathVariable Long id) {
+    public void eliminarTurno(@PathVariable Long id) throws ResourceNotFoundException {
         turnoService.eliminarTurno(id);
     }
 

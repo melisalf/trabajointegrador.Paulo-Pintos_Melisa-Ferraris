@@ -3,6 +3,8 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.controller;
 
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.OdontologoDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Odontologo;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.BadRequestException;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.ResourceNotFoundException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl.OdontologoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +40,7 @@ public class OdontologoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OdontologoDto> buscarOdontologoPorId(@PathVariable Long id){
+    public ResponseEntity<OdontologoDto> buscarOdontologoPorId(@PathVariable Long id) throws ResourceNotFoundException{
         ResponseEntity<OdontologoDto> respuesta;
         OdontologoDto odontologoDto = odontologoService.buscarOdontologoPorId(id);
         if (odontologoDto != null) respuesta = new ResponseEntity<>(odontologoDto, null, HttpStatus.OK);
@@ -58,7 +60,7 @@ public class OdontologoController {
 
     //PUT
     @PutMapping("/actualizar")
-    public ResponseEntity <OdontologoDto> actualizarOdontologo(@RequestBody Odontologo odontologo){
+    public ResponseEntity <OdontologoDto> actualizarOdontologo(@RequestBody Odontologo odontologo) throws BadRequestException, ResourceNotFoundException {
         ResponseEntity<OdontologoDto> respuesta;
         OdontologoDto odontologoDto = odontologoService.actualizarOdontologo(odontologo);
         if (odontologoDto != null) respuesta = new ResponseEntity<>(odontologoDto, null, HttpStatus.OK);
@@ -68,7 +70,7 @@ public class OdontologoController {
 
     //DELETE
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarOdontologo(@PathVariable Long id){
+    public void eliminarOdontologo(@PathVariable Long id) throws ResourceNotFoundException {
         odontologoService.eliminarOdontologo(id);
     }
 

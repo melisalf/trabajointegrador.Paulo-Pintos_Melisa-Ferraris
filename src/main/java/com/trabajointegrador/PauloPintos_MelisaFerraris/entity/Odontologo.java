@@ -1,6 +1,12 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.entity;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="ODONTOLOGOS")
@@ -8,19 +14,23 @@ public class Odontologo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Size(max = 50, message = "Se Permite Hasta 50 Caracteres")
+    @NotNull(message = "Se Debe Rellenar Este Campo")
+    @NotBlank(message = "Debe Especificar El Numero De Matricula")
+    @Pattern(regexp = "^[A-Z]{2}-\\d{1,3}\\d*$")
     private String matricula;
+    @Size(max = 50, message = "Se Permite Hasta 50 Caracteres")
+    @NotNull(message = "Se Debe Rellenar Este Campo")
+    @NotBlank(message = "Debe Especificar El Nombre Del Odontologo")
     private String nombre;
+    @Size(max = 50, message = "Se Permite Hasta 50 Caracteres")
+    @NotNull(message = "Se Debe Rellenar Este Campo")
+    @NotBlank(message = "Debe Especificar El Apellido Del Odontologo")
     private String apellido;
 
     public Odontologo(){
     }
 
-   /* public Odontologo(Long id, String matricula, String nombre, String apellido) {
-        this.id = id;
-        this.matricula = matricula;
-        this.nombre = nombre;
-        this.apellido = apellido;
-    }*/
 
     public Odontologo(String matricula, String nombre, String apellido) {
         this.matricula = matricula;

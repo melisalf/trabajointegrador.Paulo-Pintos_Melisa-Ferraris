@@ -9,7 +9,7 @@ public class TurnoDto {
 
     private String paciente;
     private String odontologo;
-    private LocalDateTime fecha;
+    private LocalDateTime fechaHoraTurno;
 
     public String getPaciente() {
         return paciente;
@@ -28,11 +28,11 @@ public class TurnoDto {
     }
 
     public LocalDateTime getFecha() {
-        return fecha;
+        return fechaHoraTurno;
     }
 
     public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
+        this.fechaHoraTurno = fecha;
     }
 
     public TurnoDto(){
@@ -41,7 +41,7 @@ public class TurnoDto {
     public TurnoDto(String paciente, String odontologo, LocalDateTime fecha) {
         this.paciente = paciente;
         this.odontologo = odontologo;
-        this.fecha = fecha;
+        this.fechaHoraTurno = fecha;
     }
 
     public static TurnoDto fromTurno (Turno turno){

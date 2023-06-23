@@ -5,6 +5,8 @@ import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.DomicilioDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.PacienteDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Domicilio;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.BadRequestException;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.ResourceNotFoundException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.impl.PacienteRepository;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.IPacienteService;
 import org.slf4j.Logger;
@@ -87,11 +89,13 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public void eliminarPaciente(Long id) {
+    public void eliminarPaciente(Long id) throws ResourceNotFoundException{
         Paciente pacienteEliminado = pacienteRepository.findById(id).orElse(null);
         if (pacienteEliminado != null) {
             pacienteRepository.deleteById(id);
             LOGGER.warn("Paciente Eliminado Con Exito");
-        }else LOGGER.error("No se pudo eliminar el paciente");
+        }else {LOGGER.error("No se pudo eliminar el paciente");
+            throw new ResourceNotFoundException("No Se Encontro El Paciente Con ID: "+ id);
+        }
     }
 }

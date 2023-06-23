@@ -10,19 +10,27 @@ import java.time.LocalDate;
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
     @Size (max = 50, message = "Maximo De 50 Caracteres")
-    @NotNull
+    @NotNull(message = "Se Debe Rellenar Este Campo")
+    @NotBlank(message = "Debe Especificar El Nombre Del Paciente")
     private String nombre;
+
     @Size (max = 50, message = "Maximo De 50 Caracteres")
-    @NotNull
+    @NotNull(message = "Se Debe Rellenar Este Campo")
+    @NotBlank(message = "Debe Especificar El Apellido Del Paciente")
     private String apellido;
-    @Size (max = 10, message = "Maximo De 15 Caracteres")
-    @NotNull
-    //@Pattern(regexp="[/d]")
+    @Size (max = 10, message = "Maximo De 50 Caracteres")
+    @NotNull(message = "Se Debe Rellenar Este Campo")
+    @NotBlank(message = "Debe Especificar El DNI Del Paciente")
+    @Pattern(regexp="[/d]")
     private String dni;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @FutureOrPresent
+    @Size (max = 10, message = "Maximo De 50 Caracteres")
+    @NotNull(message = "Se Debe Rellenar Este Campo")
+    @NotBlank(message = "Debe Especificar La Fecha De Ingreso Del Paciente")
     private LocalDate fechaIngreso;
     @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="domicilio_id")
@@ -31,15 +39,6 @@ public class Paciente {
     public Paciente(){
     }
 
-
-    public Paciente(Long id, String nombre, String apellido, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
-        this.fechaIngreso = fechaIngreso;
-        this.domicilio = domicilio;
-    }
 
     public Paciente(String nombre, String apellido, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.nombre = nombre;

@@ -1,18 +1,13 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.DomicilioDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.OdontologoDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.PacienteDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.TurnoDto;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Odontologo;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Turno;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.impl.OdontologoRepository;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.impl.PacienteRepository;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.ResourceNotFoundException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.impl.TurnoRepository;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.ITurnoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -31,7 +26,7 @@ public class TurnoService implements ITurnoService {
     }
 
     @Override
-    public TurnoDto guardarTurno(Turno turno) {
+    public TurnoDto guardarTurno(Turno turno) throws ResourceNotFoundException {
         Turno turnoGuardado = null;
         TurnoDto turnoGuardadoDto = null;
         PacienteDto pacienteDto = pacienteService.buscarPacientePorId(turno.getPaciente().getId());
@@ -70,10 +65,12 @@ public class TurnoService implements ITurnoService {
     }
 
     @Override
-    public void eliminarTurno(Long id) {
+    public void eliminarTurno(Long id) throws ResourceNotFoundException {
         if(buscarTurnoPorId(id) != null){
         turnoRepository.deleteById(id);
         LOGGER.warn("Turno Eliminado Con Exito");
-        }else LOGGER.error("El turno  no se pudo eliminar");
+        }else {LOGGER.error("El turno  no se pudo eliminar");
+        throw new ResourceNotFoundException(" No Se Encontro El Turno Con ID: "+ id);
+        }
     }
 }
