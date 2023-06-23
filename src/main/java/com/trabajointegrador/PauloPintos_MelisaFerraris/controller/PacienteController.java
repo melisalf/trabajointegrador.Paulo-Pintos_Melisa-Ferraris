@@ -2,6 +2,7 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.controller;
 
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.PacienteDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
+import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.BadRequestException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.ResourceNotFoundException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.IPacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class PacienteController {
 
     //POST
     @PostMapping("/registrar")
-    public ResponseEntity<PacienteDto> registrarPaciente(@RequestBody Paciente paciente) {
+    public ResponseEntity<PacienteDto> registrarPaciente(@RequestBody Paciente paciente) throws BadRequestException{
         ResponseEntity<PacienteDto> respuesta;
         PacienteDto pacienteDto = pacienteService.guardarPaciente(paciente);
         if (pacienteDto != null) respuesta = new ResponseEntity<>(pacienteDto, null, HttpStatus.CREATED);
@@ -34,7 +35,7 @@ public class PacienteController {
 
     //PUT
     @PutMapping("/actualizar")
-    public ResponseEntity<PacienteDto> actualizarPaciente(@RequestBody Paciente paciente) {
+    public ResponseEntity<PacienteDto> actualizarPaciente(@RequestBody Paciente paciente) throws BadRequestException,ResourceNotFoundException {
         ResponseEntity<PacienteDto> respuesta;
         PacienteDto pacienteDto = pacienteService.actualizarPaciente(paciente);
         if (pacienteDto != null) respuesta = new ResponseEntity<>(pacienteDto, null, HttpStatus.OK);
@@ -51,7 +52,7 @@ public class PacienteController {
 
     //GET BUSCAR POR ID
     @GetMapping("/{id}")
-    public PacienteDto buscarPacientePorId(@PathVariable Long id) {
+    public PacienteDto buscarPacientePorId(@PathVariable Long id)throws BadRequestException, ResourceNotFoundException {
         return pacienteService.buscarPacientePorId(id);
     }
 

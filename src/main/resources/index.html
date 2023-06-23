@@ -2,10 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Clinica Odontologica</title>
 </head>
 <body>
-<p>Hola paciente <span th:text="${nombre}"></span> <span th:text="${apellido}"></span></p>
-<p>Hola odontologo <span th:text="${matricula}"></span></p>
+<div>
+    <a href="#" id = "txtBtn"class="button"> Cargar TXT </a>
+        <a href="#" id = "jsnoBtn"class="button"> Cargar JSON </a>
+            <a href="#" id="apiBTN" class="button"> Cargar API </a>
+</div>
+<div class="container">
+
+    <div id="resultado"></div>
+</div>
 </body>
 </html>

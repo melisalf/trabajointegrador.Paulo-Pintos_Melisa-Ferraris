@@ -45,7 +45,7 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public PacienteDto buscarPacientePorId(Long id) {
+    public PacienteDto buscarPacientePorId(Long id) throws ResourceNotFoundException, BadRequestException{
         Paciente pacienteEncontrado = pacienteRepository.findById(id).orElse(null);
         PacienteDto pacienteDto = null;
 
@@ -55,24 +55,30 @@ public class PacienteService implements IPacienteService {
             pacienteDto.setDomicilioDto(domicilioDto);
             LOGGER.info("Paciente Encontrado Con Id :{}", pacienteDto);
 
-        } else LOGGER.error("No Se Encontro Paciente Con El ID Indicado");
+        } if (pacienteEncontrado.getId() != pacienteDto.getId()){
+            throw new ResourceNotFoundException("No Se Encontro Un Paciente Con El Id Especificado");
+        }else if (pacienteEncontrado.getId() == null ){
+            throw new BadRequestException("Ingrese Un ID Valido");}
 
         return pacienteDto;
     }
 
     @Override
-    public PacienteDto guardarPaciente(Paciente paciente) {
+    public PacienteDto guardarPaciente(Paciente paciente) throws BadRequestException{
         Paciente nuevoPaciente= pacienteRepository.save(paciente);
         DomicilioDto domicilioDto = mapper.convertValue(nuevoPaciente.getDomicilio(),DomicilioDto.class);
         PacienteDto nuevoPacienteDto = mapper.convertValue(nuevoPaciente, PacienteDto.class);
         nuevoPacienteDto.setDomicilioDto(domicilioDto);
         LOGGER.info("Paciente Guardado Con Exito {}", nuevoPacienteDto);
+        if(nuevoPaciente.getDomicilio() == null ){
+            throw new BadRequestException("Debe Especificar Un Domicilio Para El Paciente A Registar");
 
+        }
         return nuevoPacienteDto;
     }
 
     @Override
-    public PacienteDto actualizarPaciente(Paciente paciente) {
+    public PacienteDto actualizarPaciente(Paciente paciente) throws BadRequestException, ResourceNotFoundException{
         Paciente pacienteAActualizar = pacienteRepository.findById(paciente.getId()).orElse(null);
         PacienteDto pacienteActualizadoDto = null;
 
@@ -84,7 +90,15 @@ public class PacienteService implements IPacienteService {
             pacienteActualizadoDto = mapper.convertValue(pacienteAActualizar, PacienteDto.class);
             pacienteActualizadoDto.setDomicilioDto(domicilioDto);
             LOGGER.info("Paciente actualizado con exito: {}",pacienteActualizadoDto);
-        } else LOGGER.error("No fue posible actualizar los datos ya que el paciente no se encuentra registrado");
+        } if(paciente.getId()!= pacienteAActualizar.getId()){
+
+            throw new BadRequestException("No Se Encontro El Paciente A Actualizar");
+        }
+
+        else if (pacienteAActualizar== null){
+
+            throw new ResourceNotFoundException("No Existe El Paciente Con El ID Especificado");
+        }
         return pacienteActualizadoDto;
     }
 
