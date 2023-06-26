@@ -3,23 +3,27 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 @Entity
 @Table(name="TURNOS")
 public class Turno {
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "paciente_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "paciente_id", nullable = false)
+    @NotNull(message = "El paciente no puede ser nulo")
     private Paciente paciente;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    @FutureOrPresent
-    private LocalDateTime fechaHoraTurno;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "odontologo_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "odontologo_id", nullable = false)
+    @NotNull(message = "El odontologo no puede ser nulo")
     private Odontologo odontologo;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    @FutureOrPresent(message = "La fecha del turno no puede ser anterior al día de hoy")
+    @NotNull(message = "La fecha y hora del turno no puede ser nula")
+    private LocalDateTime fechaHoraTurno;
     public Turno(){
     }
 

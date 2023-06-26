@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OdontologoDto {
+    private Long id;
     private String matricula;
     private String nombre;
     private String apellido;
+
     public OdontologoDto(){
     }
+
 
     public OdontologoDto(String matricula, String nombre, String apellido) {
         this.matricula = matricula;

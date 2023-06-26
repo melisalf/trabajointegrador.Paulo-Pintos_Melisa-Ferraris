@@ -22,7 +22,7 @@ public class Paciente {
     //@Pattern(regexp="[/d]")
     private String dni;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @FutureOrPresent
+    //@FutureOrPresent
     private LocalDate fechaIngreso;
     @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="domicilio_id")
@@ -31,31 +31,17 @@ public class Paciente {
     public Paciente(){
     }
 
-
-    public Paciente(Long id, String nombre, String apellido, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.dni = dni;
-        this.fechaIngreso = fechaIngreso;
-        this.domicilio = domicilio;
-    }
-
     public Paciente(String nombre, String apellido, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.fechaIngreso = fechaIngreso;
         this.domicilio = domicilio;
-
     }
-
-
 
     public Long getId() {
         return id;
     }
-
 
     public String getNombre() {
         return nombre;
