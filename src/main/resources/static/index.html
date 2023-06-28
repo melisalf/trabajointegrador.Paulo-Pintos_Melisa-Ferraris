@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <title>Home - Clínica Odontológica</title>
+
+</head>
+<body>
+<header>
+    <h1>Clínica Odontológica</h1>
+</header>
+<main>
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <div>
+                        <h2>Pacientes</h2>
+                        <button id="listarP">Listar todos</button>
+                        <br>
+                        <br>
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" required>
+                        <br>
+                        <br>
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" required>
+                        <br>
+                        <br>
+                        <label for="dni">DNI</label>
+                        <input type="text" id="dni" required>
+                        <br>
+                        <br>
+                        <label for="fechaAlta">Fecha de ingreso</label>
+                        <input type="date" id="fechaAlta" required>
+                        <br>
+                        <br>
+                        <label for="calle">Calle</label>
+                        <input type="text" id="calle" required>
+                        <br>
+                        <br>
+                        <label for="numero">Número</label>
+                        <input type="text" id="numero" required>
+                        <br>
+                        <br>
+                        <label for="ciudad">Ciudad</label>
+                        <input type="text" id="ciudad" required>
+                        <br>
+                        <br>
+                        <button id="agregarP">Agregar</button>
+                        <br>
+                        <br>
+                        <input type="text" id="idP" name="id" placeholder="Ingrese el id">
+                        <button id="buscarP">Buscar por id</button>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <h2>Odontólogos</h2>
+                        <button id="listarO">Listar todos</button>
+                        <br>
+                        <br>
+                        <label for="nombreO">Nombre</label>
+                        <input type="text" id="nombreO" required>
+                        <br>
+                        <br>
+                        <label for="apellidoO">Apellido</label>
+                        <input type="text" id="apellidoO" required>
+                        <br>
+                        <br>
+                        <label for="matricula">Matricula</label>
+                        <input type="text" id="matricula" required>
+                        <br>
+                        <br>
+                        <button id="agregarO">Agregar</button>
+                        <br>
+                        <br>
+                        <input type="text" id="idO" name="id" placeholder="Ingrese el id">
+                        <button id="buscarO">Buscar por id</button>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <h2>Turnos</h2>
+                        <button id="listarT">Listar todos</button>
+                        <br>
+                        <br>
+                        <label for="pacienteId">ID Paciente</label>
+                        <input type="text" id="pacienteId" required>
+                        <br>
+                        <br>
+                        <label for="odontologoId">ID Odontólogo</label>
+                        <input type="text" id="odontologoId" required>
+                        <br>
+                        <br>
+                        <label for="fechaTurno">Fecha y Hora</label>
+                        <input type="datetime-local" id="fechaTurno" placeholder="AAAA-MM-DDTHH:MM" required>
+                        <br>
+                        <br>
+                        <button id="agregarT">Agregar</button>
+                        <br>
+                        <br>
+                        <input type="text" id="idT" name="id" placeholder="Ingrese el id">
+                        <button id="buscarT">Buscar por id</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="contenedorRespuesta"></div>
+</main>
+<script type="text/javascript" src="/static/js/script.js"></script>
+</body>
+</html>

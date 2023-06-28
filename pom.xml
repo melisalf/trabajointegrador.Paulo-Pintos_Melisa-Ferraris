@@ -16,7 +16,6 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -75,8 +74,9 @@
 	</dependencies>
 
 	<build>
+
 		<plugins>
-			<!-- para ejecutar tests unitarios -->
+			<!-- para que ejecute tests unitarios -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
