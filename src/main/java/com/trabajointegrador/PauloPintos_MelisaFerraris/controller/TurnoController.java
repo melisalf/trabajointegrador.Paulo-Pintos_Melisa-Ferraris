@@ -52,7 +52,7 @@ public class TurnoController {
 
     //DELETE
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarTurno(@PathVariable Long id) throws ResourceNotFoundException {
+    public void eliminarTurno(@PathVariable Long id) throws ResourceNotFoundException, BadRequestException {
         turnoService.eliminarTurno(id);
     }
 

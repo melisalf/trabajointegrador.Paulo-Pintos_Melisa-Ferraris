@@ -98,6 +98,6 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return "Id: " + id + " - Nombre: " + nombre + " - Apellido: " + apellido + " - DNI: " + dni + " - Fechas de ingreso: " + fechaIngreso + " - Domicilio: " + domicilio;
+        return "Id: " + id + " - Nombre: " + nombre + " - Apellido: " + apellido + " - DNI: " + dni + " - Fecha de ingreso: " + fechaIngreso + " - Domicilio: " + domicilio;
     }
 }

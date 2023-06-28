@@ -35,8 +35,7 @@ public class PacienteService implements IPacienteService {
     public List<PacienteDto> listarPacientes() {
         List<Paciente> pacientes = pacienteRepository.findAll();
         List<PacienteDto> pacienteDtos = pacientes.stream().map(paciente -> {
-            Domicilio dom = paciente.getDomicilio();
-            DomicilioDto domicilioDto = mapper.convertValue(dom, DomicilioDto.class);
+            DomicilioDto domicilioDto = mapper.convertValue(paciente.getDomicilio(), DomicilioDto.class);
             return new PacienteDto(paciente.getId(), paciente.getNombre(), paciente.getApellido(), paciente.getDni(), paciente.getFechaIngreso(), domicilioDto);
         }).toList();
         LOGGER.info("Lista de todos los pacientes :{}", pacienteDtos);
@@ -54,6 +53,7 @@ public class PacienteService implements IPacienteService {
             pacienteDto = mapper.convertValue(pacienteEncontrado, PacienteDto.class);
             pacienteDto.setDomicilioDto(domicilioDto);
             LOGGER.info("Paciente Encontrado Con Id :{}", pacienteDto);
+            return new PacienteDto(pacienteEncontrado.getId(), pacienteEncontrado.getNombre(), pacienteEncontrado.getApellido(), pacienteEncontrado.getDni(), pacienteEncontrado.getFechaIngreso(), domicilioDto);
 
         } if (pacienteEncontrado.getId() != pacienteDto.getId()){
             throw new ResourceNotFoundException("No Se Encontro Un Paciente Con El Id Especificado");
@@ -69,6 +69,7 @@ public class PacienteService implements IPacienteService {
         DomicilioDto domicilioDto = mapper.convertValue(nuevoPaciente.getDomicilio(),DomicilioDto.class);
         PacienteDto nuevoPacienteDto = mapper.convertValue(nuevoPaciente, PacienteDto.class);
         nuevoPacienteDto.setDomicilioDto(domicilioDto);
+        nuevoPacienteDto.setFechaDeIngreso(paciente.getFechaIngreso());
         LOGGER.info("Paciente Guardado Con Exito {}", nuevoPacienteDto);
         if(nuevoPaciente.getDomicilio() == null ){
             throw new BadRequestException("Debe Especificar Un Domicilio Para El Paciente A Registar");
