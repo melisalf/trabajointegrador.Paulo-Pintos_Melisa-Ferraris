@@ -1,4 +1,5 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.OdontologoDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Odontologo;
@@ -9,7 +10,6 @@ import com.trabajointegrador.PauloPintos_MelisaFerraris.service.IOdontologoServi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import java.util.List;
 @Service
 public class OdontologoService implements IOdontologoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(OdontologoService.class);
-    private OdontologoRepository odontologoRepository;
-    private ObjectMapper mapper = new ObjectMapper();
+    private final OdontologoRepository odontologoRepository;
+    private final ObjectMapper mapper;
 
     @Autowired
     public OdontologoService(OdontologoRepository odontologoRepository, ObjectMapper mapper) {
@@ -34,8 +34,8 @@ public class OdontologoService implements IOdontologoService {
 
         if (odontologoEncontrado != null) {
             odontologoDto = mapper.convertValue(odontologoEncontrado, OdontologoDto.class);
-            LOGGER.info("Odontologo Encontrado Con Id :{}", odontologoDto);
-        } else  {LOGGER.info("Odontologo No Encontrado Con Id :{}", odontologoDto);
+            LOGGER.info("Odontologo Encontrado :{}", odontologoDto);
+        } else  {LOGGER.info("Odontologo No Encontrado:{}", odontologoDto);
         throw new ResourceNotFoundException("No Se Pudo Encontrar El Odontologo Con El ID: "+ id);
         }
 
@@ -58,7 +58,7 @@ public class OdontologoService implements IOdontologoService {
     public OdontologoDto registrarOdontologo(Odontologo odontologo) {
         Odontologo nuevoOdontologo= odontologoRepository.save(odontologo);
         OdontologoDto nuevoOdontologoDto = mapper.convertValue(nuevoOdontologo, OdontologoDto.class);
-        LOGGER.info("Paciente Guardado Con Exito {}", nuevoOdontologoDto);
+        LOGGER.info("Odontologo Registrado Con Exito {}", nuevoOdontologoDto);
 
         return nuevoOdontologoDto;
     }
@@ -72,14 +72,13 @@ public class OdontologoService implements IOdontologoService {
         if (odontologoActualizado != null  )
         { odontologoActualizado = odontologo;
             odontologoRepository.save(odontologoActualizado);odontologoActualizadoDto = mapper.convertValue  (odontologoActualizado, OdontologoDto.class);
-            LOGGER.info("Paciente Actualizado Con Exito  :{}", odontologoActualizadoDto);}
+            LOGGER.info("Odontologo Actualizado Con Exito  :{}", odontologoActualizadoDto);}
 
         if (odontologo.getId() != odontologoActualizado.getId()){
             throw new ResourceNotFoundException("No Se Encontro El Odontologo A Actualziar");
 
-
         } else if (odontologoActualizado == null){
-            throw new BadRequestException("No Se Puede Actualizar El Donotologo Porque No Se Especifico ID");
+            throw new BadRequestException("No Se Puede Actualizar El Odontologo Porque No Se Especifico ID");
            }
 
 
@@ -88,12 +87,11 @@ public class OdontologoService implements IOdontologoService {
 
     @Override
     public void eliminarOdontologo(Long id) throws ResourceNotFoundException {
-        OdontologoDto odontologoEliminado = buscarOdontologoPorId(id);
-        if(odontologoEliminado != null){
+        if(buscarOdontologoPorId(id) != null){
             odontologoRepository.deleteById(id);
-            LOGGER.warn("Odontologo eliminado con exito");
-        }else {LOGGER.error("No fue posible eliminar el odontologo");
-        throw new ResourceNotFoundException("No Se Encontro Con el ID: "+ id);
+            LOGGER.warn("Se elimino el Odontologo con id: {}", id);
+        }else {LOGGER.error("No se encontro el odontologo con id: {}", id);
+        throw new ResourceNotFoundException("No Se Encontro El Odontologo Con el ID: "+ id);
         }
     }
 }

@@ -9,34 +9,24 @@ import com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl.OdontologoS
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.List;
-@Controller
+
+
 @CrossOrigin
 @RestController
 @RequestMapping("/odontologos")
 
 public class OdontologoController {
-    private OdontologoService odontologoService;
+    private final OdontologoService odontologoService;
 
     @Autowired
     public OdontologoController(OdontologoService odontologoService) {
         this.odontologoService = odontologoService;
     }
 
-    /*@GetMapping("/index")
-    public String buscarOdontologo(Model model, @RequestParam("id") int id) {
-        Odontologo odontologo = odontologoService.buscarOdontologoPorId(id);
-
-        //agregar los atributos del objeto al modelo que mostraremos en la vista
-        model.addAttribute("matricula", odontologo.getMatricula());
-        return "index";
-    }*/
-
-
-    //GET
+     //GET
     @GetMapping()
     public List<OdontologoDto> listarOdontologos(){
         return odontologoService.listarOdontologos();
@@ -53,7 +43,7 @@ public class OdontologoController {
 
     //POST
     @PostMapping("/registrar")
-    public ResponseEntity <OdontologoDto> registrarOdontologo(@RequestBody Odontologo odontologo){
+    public ResponseEntity <OdontologoDto> registrarOdontologo(@Valid @RequestBody Odontologo odontologo){
         ResponseEntity<OdontologoDto> respuesta;
         OdontologoDto odontologoDto = odontologoService.registrarOdontologo(odontologo);
         if (odontologoDto != null) respuesta = new ResponseEntity<>(odontologoDto, null, HttpStatus.CREATED);
@@ -63,7 +53,7 @@ public class OdontologoController {
 
     //PUT
     @PutMapping("/actualizar")
-    public ResponseEntity <OdontologoDto> actualizarOdontologo(@RequestBody Odontologo odontologo) throws BadRequestException, ResourceNotFoundException {
+    public ResponseEntity <OdontologoDto> actualizarOdontologo(@Valid @RequestBody Odontologo odontologo) throws BadRequestException, ResourceNotFoundException {
         ResponseEntity<OdontologoDto> respuesta;
         OdontologoDto odontologoDto = odontologoService.actualizarOdontologo(odontologo);
         if (odontologoDto != null) respuesta = new ResponseEntity<>(odontologoDto, null, HttpStatus.OK);
@@ -71,10 +61,11 @@ public class OdontologoController {
         return respuesta;
     }
 
-    //DELETE
+    ///DELETE
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarOdontologo(@PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity<?> eliminarOdontologo(@PathVariable Long id) throws ResourceNotFoundException {
         odontologoService.eliminarOdontologo(id);
+        return ResponseEntity.ok("Odontologo eliminado con exito.");
     }
 
 }

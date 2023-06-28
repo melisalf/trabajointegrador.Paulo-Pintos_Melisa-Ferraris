@@ -3,7 +3,6 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.DomicilioDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.PacienteDto;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Domicilio;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.BadRequestException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.ResourceNotFoundException;
@@ -14,15 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
 import java.util.List;
 
 @Service
 public class PacienteService implements IPacienteService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PacienteService.class);
-    private PacienteRepository pacienteRepository;
-    private ObjectMapper mapper = new ObjectMapper();
+    private final PacienteRepository pacienteRepository;
+    private final ObjectMapper mapper;
 
     @Autowired
     public PacienteService(PacienteRepository pacienteRepository, ObjectMapper mapper) {
@@ -44,7 +41,7 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public PacienteDto buscarPacientePorId(Long id) throws ResourceNotFoundException, BadRequestException{
+    public PacienteDto buscarPacientePorId(Long id) throws ResourceNotFoundException{
         Paciente pacienteEncontrado = pacienteRepository.findById(id).orElse(null);
         PacienteDto pacienteDto = null;
 
@@ -53,15 +50,12 @@ public class PacienteService implements IPacienteService {
             pacienteDto = mapper.convertValue(pacienteEncontrado, PacienteDto.class);
             pacienteDto.setDomicilioDto(domicilioDto);
             LOGGER.info("Paciente Encontrado Con Id :{}", pacienteDto);
-            return new PacienteDto(pacienteEncontrado.getId(), pacienteEncontrado.getNombre(), pacienteEncontrado.getApellido(), pacienteEncontrado.getDni(), pacienteEncontrado.getFechaIngreso(), domicilioDto);
-
-        } if (pacienteEncontrado.getId() != pacienteDto.getId()){
-            throw new ResourceNotFoundException("No Se Encontro Un Paciente Con El Id Especificado");
-        }else if (pacienteEncontrado.getId() == null ){
-            throw new BadRequestException("Ingrese Un ID Valido");}
-
+        } else {LOGGER.info("Paciente No Encontrado:{}", pacienteDto);
+            throw new ResourceNotFoundException("No se pudo encontrar el Paciente con el ID: " + id);
+        }
         return pacienteDto;
     }
+
 
     @Override
     public PacienteDto guardarPaciente(Paciente paciente) throws BadRequestException{
@@ -108,8 +102,8 @@ public class PacienteService implements IPacienteService {
         Paciente pacienteEliminado = pacienteRepository.findById(id).orElse(null);
         if (pacienteEliminado != null) {
             pacienteRepository.deleteById(id);
-            LOGGER.warn("Paciente Eliminado Con Exito");
-        }else {LOGGER.error("No se pudo eliminar el paciente");
+            LOGGER.warn("Se elimino el Paciente con id: {}", id);
+        }else {LOGGER.error("No se encontro el paciente con id: {}", id);
             throw new ResourceNotFoundException("No Se Encontro El Paciente Con ID: "+ id);
         }
     }

@@ -7,9 +7,25 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TurnoDto {
 
+    private Long id;
     private String paciente;
     private String odontologo;
     private LocalDateTime fechaHoraTurno;
+
+    public TurnoDto(){
+
+    }
+
+    public TurnoDto(Long id, String paciente, String odontologo, LocalDateTime fechaHoraTurno) {
+        this.id = id;
+        this.paciente = paciente;
+        this.odontologo = odontologo;
+        this.fechaHoraTurno = fechaHoraTurno;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getPaciente() {
         return paciente;
@@ -27,26 +43,17 @@ public class TurnoDto {
         this.odontologo = odontologo;
     }
 
-    public LocalDateTime getFecha() {
+    public LocalDateTime getFechaHoraTurno() {
         return fechaHoraTurno;
     }
 
-    public void setFecha(LocalDateTime fecha) {
-        this.fechaHoraTurno = fecha;
-    }
-
-    public TurnoDto(){
-    }
-
-    public TurnoDto(String paciente, String odontologo, LocalDateTime fecha) {
-        this.paciente = paciente;
-        this.odontologo = odontologo;
-        this.fechaHoraTurno = fecha;
+    public void setFechaHoraTurno(LocalDateTime fechaHoraTurno) {
+        this.fechaHoraTurno = fechaHoraTurno;
     }
 
     public static TurnoDto fromTurno (Turno turno){
-        String paciente = "Nombre: " + turno.getPaciente().getNombre() +"Apellido: " + turno.getPaciente().getApellido();
-        String odotologo = "Nombre: " + turno.getOdontologo().getNombre() +"Apellido: " + turno.getOdontologo().getApellido();
-        return new TurnoDto(paciente,odotologo, turno.getFechaHoraTurno());
+        String paciente = "Nombre: " + turno.getPaciente().getNombre() +" - Apellido: " + turno.getPaciente().getApellido();
+        String odontologo = "Nombre: " + turno.getOdontologo().getNombre() +" - Apellido: " + turno.getOdontologo().getApellido();
+        return new TurnoDto(turno.getId(), paciente,odontologo, turno.getFechaHoraTurno());
     }
 }

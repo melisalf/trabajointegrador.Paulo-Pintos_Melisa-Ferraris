@@ -3,6 +3,7 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="DOMICILIOS")
@@ -10,15 +11,18 @@ public class Domicilio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Size(max = 100, message = "Maximo De 100 Caracteres")
     @NotNull(message = "Debe Completar Este Campo")
     @NotBlank(message = "Debe Especificar La Calle Del Domicilio")
     private String calle;
     @NotNull(message = "Debe Completar Este Campo")
-    @NotBlank(message = "Debe Especificar El Numero Del Domicilio")
     private int numero;
+    @Size (max = 50, message = "Maximo De 50 Caracteres")
     @NotNull(message = "Debe Completar Este Campo")
     @NotBlank(message = "Debe Especificar La Localidad Del Domicilio")
     private String localidad;
+
+    @Size (max = 50, message = "Maximo De 50 Caracteres")
     @NotNull(message = "Debe Completar Este Campo")
     @NotBlank(message = "Debe Especificar La Provincia Del Domicilio")
     private String provincia;

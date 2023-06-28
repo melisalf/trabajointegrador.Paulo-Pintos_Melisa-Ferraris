@@ -21,16 +21,13 @@ public class Paciente {
     @NotNull(message = "Se Debe Rellenar Este Campo")
     @NotBlank(message = "Debe Especificar El Apellido Del Paciente")
     private String apellido;
-    @Size (max = 10, message = "Maximo De 50 Caracteres")
+    @Size (max = 10, message = "Maximo De 10 Caracteres")
     @NotNull(message = "Se Debe Rellenar Este Campo")
     @NotBlank(message = "Debe Especificar El DNI Del Paciente")
-    @Pattern(regexp="[/d]")
     private String dni;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @FutureOrPresent
-    @Size (max = 10, message = "Maximo De 50 Caracteres")
     @NotNull(message = "Se Debe Rellenar Este Campo")
-    @NotBlank(message = "Debe Especificar La Fecha De Ingreso Del Paciente")
     private LocalDate fechaIngreso;
     @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="domicilio_id")
