@@ -208,10 +208,10 @@ function buscarOdontologoPorId(){
 function guardarTurno() {
   // Obtener los valores de los campos de entrada
   let turno = {
-      paciente: pacienteIdInput.value,
-      odontologo: odontologoIdInput.value,
-      fechaHoraTurno: fechaHoraTurnoInput.value,
-    }
+    paciente: { id: pacienteIdInput.value },
+    odontologo: { id: odontologoIdInput.value },
+    fechaHoraTurno: fechaHoraTurnoInput.value,
+  };
     console.log("Fecha Turno: " + fechaHoraTurno);
   // Enviar solicitud POST al handler de agregar paciente
   enviarDatos('http://localhost:8080/turnos/registrar', turno);
