@@ -10,18 +10,18 @@ public class PacienteDto {
     private String nombre;
     private String apellido;
     private String dni;
-    private LocalDate fechaDeIngreso;
+    private LocalDate fechaIngreso;
     private DomicilioDto domicilioDto;
 
     public PacienteDto(){
     }
 
-    public PacienteDto(Long id,String nombre, String apellido, String dni, LocalDate fechaDeIngreso, DomicilioDto domicilioDto) {
+    public PacienteDto(Long id,String nombre, String apellido, String dni, LocalDate fechaIngreso, DomicilioDto domicilioDto) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
-        this.fechaDeIngreso = fechaDeIngreso;
+        this.fechaIngreso = fechaIngreso;
         this.domicilioDto = domicilioDto;
     }
 
@@ -53,12 +53,12 @@ public class PacienteDto {
         this.dni = dni;
     }
 
-    public LocalDate getFechaDeIngreso() {
-        return fechaDeIngreso;
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
     }
 
-    public void setFechaDeIngreso(LocalDate fechaDeIngreso) {
-        this.fechaDeIngreso = fechaDeIngreso;
+    public void setFechaIngreso(LocalDate fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
     }
 
     public DomicilioDto getDomicilioDto() {

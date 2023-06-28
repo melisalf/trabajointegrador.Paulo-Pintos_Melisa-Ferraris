@@ -3,7 +3,6 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.OdontologoDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Odontologo;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.BadRequestException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.ResourceNotFoundException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.repository.impl.OdontologoRepository;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.service.IOdontologoService;
@@ -64,24 +63,18 @@ public class OdontologoService implements IOdontologoService {
     }
 
     @Override
-    public OdontologoDto actualizarOdontologo(Odontologo odontologo) throws ResourceNotFoundException, BadRequestException {
-        Odontologo odontologoActualizado = odontologoRepository.findById(odontologo.getId()).orElse(null);
-
+    public OdontologoDto actualizarOdontologo(Odontologo odontologo) throws ResourceNotFoundException {
+        Odontologo odontologoAActualizar = odontologoRepository.findById(odontologo.getId()).orElse(null);
         OdontologoDto odontologoActualizadoDto= null;
 
-        if (odontologoActualizado != null  )
-        { odontologoActualizado = odontologo;
-            odontologoRepository.save(odontologoActualizado);odontologoActualizadoDto = mapper.convertValue  (odontologoActualizado, OdontologoDto.class);
-            LOGGER.info("Odontologo Actualizado Con Exito  :{}", odontologoActualizadoDto);}
-
-        if (odontologo.getId() != odontologoActualizado.getId()){
-            throw new ResourceNotFoundException("No Se Encontro El Odontologo A Actualziar");
-
-        } else if (odontologoActualizado == null){
-            throw new BadRequestException("No Se Puede Actualizar El Odontologo Porque No Se Especifico ID");
-           }
-
-
+        if (odontologoAActualizar != null  ) {
+            odontologoAActualizar = odontologo;
+            odontologoRepository.save(odontologoAActualizar);
+            odontologoActualizadoDto = mapper.convertValue(odontologoAActualizar, OdontologoDto.class);
+            LOGGER.info("Odontologo Actualizado Con Exito  :{}", odontologoActualizadoDto);
+        } else {LOGGER.error("No se encontro el paciente con el id indicado");
+            throw new ResourceNotFoundException("No Existe El Paciente Con El ID Especificado");
+        }
         return odontologoActualizadoDto;
     }
 

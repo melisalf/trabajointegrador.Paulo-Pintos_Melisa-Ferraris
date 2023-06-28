@@ -29,12 +29,9 @@ public class TurnoController {
     //GET BUSCAR POR ID
     @GetMapping("/{id}")
     public ResponseEntity<TurnoDto> buscarTurnoPorId(@PathVariable Long id) throws ResourceNotFoundException {
-        ResponseEntity<TurnoDto> respuesta;
-        TurnoDto turnoDto = turnoService.buscarTurnoPorId(id);
-        if (turnoDto != null) respuesta = new ResponseEntity<>(turnoDto, null, HttpStatus.OK);
-        else respuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        return respuesta;
+        return new ResponseEntity<>(turnoService.buscarTurnoPorId(id), null, HttpStatus.OK);
     }
+
 
     //GET LISTAR TODOS
     @GetMapping()
@@ -45,27 +42,20 @@ public class TurnoController {
     //POST REGISTRAR
     @PostMapping("/registrar")
     public ResponseEntity<TurnoDto> guardarTurno(@Valid @RequestBody Turno turno) throws ResourceNotFoundException, BadRequestException {
-        ResponseEntity<TurnoDto> respuesta;
-        TurnoDto turnoDto = turnoService.guardarTurno(turno);
-        if (turnoDto != null) respuesta = new ResponseEntity<>(turnoDto, null, HttpStatus.CREATED);
-        else respuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        return respuesta;
+        return new ResponseEntity<>(turnoService.guardarTurno(turno), null, HttpStatus.CREATED);
     }
 
     //DELETE
     @DeleteMapping("/eliminar/{id}")
-    public void eliminarTurno(@PathVariable Long id) throws ResourceNotFoundException, BadRequestException {
+    public ResponseEntity<?> eliminarTurno(@PathVariable Long id) throws ResourceNotFoundException {
         turnoService.eliminarTurno(id);
+        return ResponseEntity.ok("Turno eliminado");
     }
 
     //PUT
     @PutMapping("/actualizar")
-    public ResponseEntity<TurnoDto> actualizarTurno(@Valid @RequestBody Turno turno)throws BadRequestException, ResourceNotFoundException{
-        ResponseEntity<TurnoDto> respuesta;
-        TurnoDto turnoDto = turnoService.actualizarTurno(turno);
-        if (turnoDto != null) respuesta = new ResponseEntity<>(turnoDto, null, HttpStatus.OK);
-        else respuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        return respuesta;
+    public ResponseEntity<TurnoDto> actualizarPaciente(@Valid @RequestBody Turno turno) throws BadRequestException, ResourceNotFoundException {
+        return new ResponseEntity<>(turnoService.actualizarTurno(turno), null, HttpStatus.OK);
     }
 
 

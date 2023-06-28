@@ -23,6 +23,8 @@ public class Paciente {
     private String apellido;
     @Size (max = 10, message = "Maximo De 10 Caracteres")
     @NotNull(message = "Se Debe Rellenar Este Campo")
+    // Este patron indica que debemos ingresar tipo de dato String pero que solo admite valores numericos.
+    @Pattern(regexp = "\\d+", message = "El campo dni sólo admite caracteres numéricos")
     @NotBlank(message = "Debe Especificar El DNI Del Paciente")
     private String dni;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

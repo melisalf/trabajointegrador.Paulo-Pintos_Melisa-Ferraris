@@ -27,24 +27,15 @@ public class PacienteController {
 
     //POST
     @PostMapping("/registrar")
-    public ResponseEntity<PacienteDto> registrarPaciente(@Valid @RequestBody Paciente paciente) throws BadRequestException{
-        ResponseEntity<PacienteDto> respuesta;
-        PacienteDto pacienteDto = pacienteService.guardarPaciente(paciente);
-        if (pacienteDto != null) respuesta = new ResponseEntity<>(pacienteDto, null, HttpStatus.CREATED);
-        else respuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        return respuesta;
+    public ResponseEntity<PacienteDto> registrarPaciente(@Valid @RequestBody Paciente paciente) throws BadRequestException {
+        return new ResponseEntity<>(pacienteService.guardarPaciente(paciente), null, HttpStatus.CREATED);
     }
 
     //PUT
     @PutMapping("/actualizar")
-    public ResponseEntity<PacienteDto> actualizarPaciente(@Valid @RequestBody Paciente paciente) throws BadRequestException,ResourceNotFoundException {
-        ResponseEntity<PacienteDto> respuesta;
-        PacienteDto pacienteDto = pacienteService.actualizarPaciente(paciente);
-        if (pacienteDto != null) respuesta = new ResponseEntity<>(pacienteDto, null, HttpStatus.OK);
-        else respuesta = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        return respuesta;
+    public ResponseEntity<PacienteDto> actualizarPaciente(@Valid @RequestBody Paciente paciente) throws ResourceNotFoundException {
+        return new ResponseEntity<>(pacienteService.actualizarPaciente(paciente), null, HttpStatus.OK);
     }
-
 
     //GET LISTAR TODOS
     @GetMapping("")
@@ -54,8 +45,8 @@ public class PacienteController {
 
     //GET BUSCAR POR ID
     @GetMapping("/{id}")
-    public PacienteDto buscarPacientePorId(@PathVariable Long id)throws ResourceNotFoundException {
-        return pacienteService.buscarPacientePorId(id);
+    public ResponseEntity<PacienteDto> buscarPacientePorId(@PathVariable Long id) throws ResourceNotFoundException {
+        return new ResponseEntity<>(pacienteService.buscarPacientePorId(id), null, HttpStatus.OK);
     }
 
     //DELETE
