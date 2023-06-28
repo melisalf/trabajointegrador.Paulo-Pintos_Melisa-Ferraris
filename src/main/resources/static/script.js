@@ -11,19 +11,19 @@ console.log('DOM Cargado');
 const nombreInput = document.getElementById('nombre');
 const apellidoInput = document.getElementById('apellido');
 const dniInput = document.getElementById('dni');
-const fechaAltaInput = document.getElementById('fechaIngreso');
+const fechaIngresoInput = document.getElementById('fechaIngreso');
 const calleInput = document.getElementById('calle');
 const numeroInput = document.getElementById('numero');
-const ciudadInput = document.getElementById('localidad');
-const ciudadInput = document.getElementById('provincia');
+const localidadInput = document.getElementById('localidad');
+const provinciaInput = document.getElementById('provincia');
 
-const nombreOInput = document.getElementById('matriculaO');
-const apellidoOInput = document.getElementById('nombreO');
-const matriculaInput = document.getElementById('apellidoO');
+const matriculaOInput = document.getElementById('matriculaO');
+const nombreOInput = document.getElementById('nombreO');
+const apellidoOInput = document.getElementById('apellidoO');
 
 const pacienteIdInput = document.getElementById('pacienteId');
 const odontologoIdInput = document.getElementById('odontologoId');
-const fechaTurnoInput = document.getElementById('fechaHoraTurno');
+const fechaHoraTurnoInput = document.getElementById('fechaHoraTurno');
 
 const idPInput = document.getElementById('idP');
 const idOInput = document.getElementById('idO');
@@ -43,23 +43,22 @@ const buscarTButton = document.getElementById('buscarT');
 
 // Event listeners para los botones
 listarPButton.addEventListener('click', listarPacientes);
-agregarPButton.addEventListener('click', agregarPaciente);
+agregarPButton.addEventListener('click', registrarPaciente);
 buscarPButton.addEventListener('click', function(event) {
   event.preventDefault(); // Evitar comportamiento predeterminado del botón
-  buscarPaciente();
+  listarPacientes();
 });
 
 
 listarOButton.addEventListener('click', listarOdontologos);
-agregarOButton.addEventListener('click', agregarOdontologo);
-buscarOButton.addEventListener('click', buscarOdontologo);
+agregarOButton.addEventListener('click', registrarOdontologo);
+buscarOButton.addEventListener('click', buscarOdontologoPorId);
 
-listarTButton.addEventListener('click', listarTurnos);
-agregarTButton.addEventListener('click', agregarTurno);
-buscarTButton.addEventListener('click', buscarTurno);
+listarTButton.addEventListener('click', listarTodos);
+agregarTButton.addEventListener('click', guardarTurno);
+buscarTButton.addEventListener('click', buscarTurnoPorId);
 
 
-// FUNCIONES GENERALES aplicables a todas las entities.
 
 // Funciones para enviar los datos vía POST utilizando Fetch
 function enviarDatos(url, datos) {
@@ -79,7 +78,9 @@ function enviarDatos(url, datos) {
     }
   })
   .catch(error => {
-    console.error('Error:', error);
+     console.error('Error:', error);
+      console.error('Error en la respuesta:', response.status);
+      console.error('Contenido del error:', response.statusText);
   });
 }
 
@@ -152,7 +153,7 @@ function generarHTML(data) {
 
 // FUNCIONES ESPECIFICAS ligadas a los botones.
 
-function agregarPaciente() {
+function registrarPaciente() {
   // Obtener los valores de los campos de entrada
   let paciente = {
     nombre: nombreInput.value,
@@ -162,65 +163,65 @@ function agregarPaciente() {
     domicilio: {
         calle: calleInput.value,
         numero: numeroInput.value,
-        localidad: localidadInput.value
-        provincia: provinciaInput.value
+        localidad: localidadInput.value,
+        provincia: provinciaInput.value,
         }
   }
 
   // Enviar solicitud POST al handler de agregar paciente
-  enviarDatos('http://localhost:8080/pacientes/agregar', paciente);
+  enviarDatos('http://localhost:8080/pacientes/registrar', paciente);
 }
 
 function listarPacientes(){
   listar("http://localhost:8080/pacientes","");
 }
 
-function buscarPaciente(){
+function buscarPacientePorId(){
 
     let id = idP.value;
     listar("http://localhost:8080/pacientes/", id);
 }
 
-function agregarOdontologo() {
+function registrarOdontologo() {
   // Obtener los valores de los campos de entrada
   let odontologo = {
-    matricula: matriculaInput.value
+    matricula: matriculaOInput.value,
     nombre: nombreOInput.value,
     apellido: apellidoOInput.value,
 
   }
 
   // Enviar solicitud POST al handler de agregar paciente
-  enviarDatos('http://localhost:8080/odontologos/agregar', odontologo);
+  enviarDatos('http://localhost:8080/odontologos/registrar', odontologo);
 }
 
 function listarOdontologos(){
     listar("http://localhost:8080/odontologos","");
 }
 
-function buscarOdontologo(){
+function buscarOdontologoPorId(){
 
     let id = idO.value;
     listar("http://localhost:8080/odontologos/", id);
 }
 
-function agregarTurno() {
+function guardarTurno() {
   // Obtener los valores de los campos de entrada
   let turno = {
-    paciente: pacienteIdInput.value,
-    odontologo: odontologoIdInput.value,
-    fechaHoraTurno: fechaHoraTurnoInput.value
-  }
-    console.log("Fecha Turno: " + fechaHoraTurno)
+      paciente: pacienteIdInput.value,
+      odontologo: odontologoIdInput.value,
+      fechaHoraTurno: fechaHoraTurnoInput.value,
+    }
+    console.log("Fecha Turno: " + fechaHoraTurno);
   // Enviar solicitud POST al handler de agregar paciente
-  enviarDatos('http://localhost:8080/turnos/nuevo', turno);
+  enviarDatos('http://localhost:8080/turnos/registrar', turno);
 }
 
-function listarTurnos(){
+function listarTodos(){
     listar("http://localhost:8080/turnos","");
 }
 
-function buscarTurno(){
+function buscarTurnoPorId(){
 
     let id = idT.value;
     listar("http://localhost:8080/turnos/", id);
