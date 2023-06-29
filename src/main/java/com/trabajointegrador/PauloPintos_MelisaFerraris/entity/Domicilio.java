@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="DOMICILIOS")
+@Table(name = "DOMICILIOS")
 public class Domicilio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,16 +17,17 @@ public class Domicilio {
     private String calle;
     @NotNull(message = "Debe Completar Este Campo")
     private int numero;
-    @Size (max = 50, message = "Maximo De 50 Caracteres")
+    @Size(max = 50, message = "Maximo De 50 Caracteres")
     @NotNull(message = "Debe Completar Este Campo")
     @NotBlank(message = "Debe Especificar La Localidad Del Domicilio")
     private String localidad;
 
-    @Size (max = 50, message = "Maximo De 50 Caracteres")
+    @Size(max = 50, message = "Maximo De 50 Caracteres")
     @NotNull(message = "Debe Completar Este Campo")
     @NotBlank(message = "Debe Especificar La Provincia Del Domicilio")
     private String provincia;
-    public Domicilio (){
+
+    public Domicilio() {
     }
 
 

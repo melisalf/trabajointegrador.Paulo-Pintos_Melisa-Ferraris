@@ -1,27 +1,28 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
-
 import java.time.LocalDate;
+
 @Entity
-@Table( name="PACIENTES" )
+@Table(name = "PACIENTES")
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-    @Size (max = 50, message = "Maximo De 50 Caracteres")
+    @Size(max = 50, message = "Maximo De 50 Caracteres")
     @NotNull(message = "Se Debe Rellenar Este Campo")
     @NotBlank(message = "Debe Especificar El Nombre Del Paciente")
     private String nombre;
 
-    @Size (max = 50, message = "Maximo De 50 Caracteres")
+    @Size(max = 50, message = "Maximo De 50 Caracteres")
     @NotNull(message = "Se Debe Rellenar Este Campo")
     @NotBlank(message = "Debe Especificar El Apellido Del Paciente")
     private String apellido;
-    @Size (max = 10, message = "Maximo De 10 Caracteres")
+    @Size(max = 10, message = "Maximo De 10 Caracteres")
     @NotNull(message = "Se Debe Rellenar Este Campo")
     // Este patron indica que debemos ingresar tipo de dato String pero que solo admite valores numericos.
     @Pattern(regexp = "\\d+", message = "El campo dni sólo admite caracteres numéricos")
@@ -31,11 +32,11 @@ public class Paciente {
     @FutureOrPresent
     @NotNull(message = "Se Debe Rellenar Este Campo")
     private LocalDate fechaIngreso;
-    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="domicilio_id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "domicilio_id")
     private Domicilio domicilio;
 
-    public Paciente(){
+    public Paciente() {
     }
 
 
@@ -47,7 +48,6 @@ public class Paciente {
         this.domicilio = domicilio;
 
     }
-
 
 
     public Long getId() {

@@ -26,9 +26,9 @@ public class OdontologoController {
         this.odontologoService = odontologoService;
     }
 
-     //GET
+    //GET
     @GetMapping()
-    public List<OdontologoDto> listarOdontologos(){
+    public List<OdontologoDto> listarOdontologos() {
         return odontologoService.listarOdontologos();
     }
 
@@ -45,7 +45,7 @@ public class OdontologoController {
 
     //PUT
     @PutMapping("/actualizar")
-    public ResponseEntity <OdontologoDto> actualizarOdontologo(@Valid @RequestBody Odontologo odontologo) throws ResourceNotFoundException {
+    public ResponseEntity<OdontologoDto> actualizarOdontologo(@Valid @RequestBody Odontologo odontologo) throws ResourceNotFoundException {
         return new ResponseEntity<>(odontologoService.actualizarOdontologo(odontologo), null, HttpStatus.OK);
     }
 

@@ -1,4 +1,4 @@
-package com.trabajointegrador.PauloPintos_MelisaFerraris.repository.impl;
+package com.trabajointegrador.PauloPintos_MelisaFerraris.repository;
 
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;

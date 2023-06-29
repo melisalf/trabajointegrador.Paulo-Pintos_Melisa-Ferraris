@@ -9,7 +9,8 @@ public class OdontologoDto {
     private String matricula;
     private String nombre;
     private String apellido;
-    public OdontologoDto(){
+
+    public OdontologoDto() {
     }
 
     public OdontologoDto(String matricula, String nombre, String apellido) {
