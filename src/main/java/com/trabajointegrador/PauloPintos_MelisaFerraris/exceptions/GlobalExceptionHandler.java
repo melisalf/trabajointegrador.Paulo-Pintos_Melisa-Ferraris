@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends Exception{
+public class GlobalExceptionHandler extends Exception {
     @ExceptionHandler({ResourceNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> procesarNotFoundException(ResourceNotFoundException exception){
+    public Map<String, String> procesarNotFoundException(ResourceNotFoundException exception) {
         Map<String, String> exceptionMessage = new HashMap<>();
         exceptionMessage.put("message", "El Recurso no fue encontrado: " + exception.getMessage());
         return exceptionMessage;
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler extends Exception{
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> procesarValidationException(MethodArgumentNotValidException exception){
+    public Map<String, String> procesarValidationException(MethodArgumentNotValidException exception) {
         Map<String, String> exceptionMessage = new HashMap<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

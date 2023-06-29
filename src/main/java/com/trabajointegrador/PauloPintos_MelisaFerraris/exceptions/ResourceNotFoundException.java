@@ -1,7 +1,7 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions;
 
-public class ResourceNotFoundException extends Exception{
-    public ResourceNotFoundException (String message){
+public class ResourceNotFoundException extends Exception {
+    public ResourceNotFoundException(String message) {
         super(message);
     }
 

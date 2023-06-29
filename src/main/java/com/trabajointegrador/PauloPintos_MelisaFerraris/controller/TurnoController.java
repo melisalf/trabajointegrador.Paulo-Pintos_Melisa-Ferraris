@@ -54,7 +54,7 @@ public class TurnoController {
 
     //PUT
     @PutMapping("/actualizar")
-    public ResponseEntity<TurnoDto> actualizarPaciente(@Valid @RequestBody Turno turno) throws BadRequestException, ResourceNotFoundException {
+    public ResponseEntity<TurnoDto> actualizarPaciente(@Valid @RequestBody Turno turno) throws ResourceNotFoundException {
         return new ResponseEntity<>(turnoService.actualizarTurno(turno), null, HttpStatus.OK);
     }
 

@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="ODONTOLOGOS")
+@Table(name = "ODONTOLOGOS")
 public class Odontologo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Odontologo {
     @NotBlank(message = "Debe Especificar El Apellido Del Odontologo")
     private String apellido;
 
-    public Odontologo(){
+    public Odontologo() {
     }
 
 

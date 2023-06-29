@@ -13,8 +13,9 @@ public class DomicilioDto {
     public DomicilioDto() {
 
     }
-    public DomicilioDto(Long id,String calle, int numero, String localidad, String provincia) {
-        this.id= id;
+
+    public DomicilioDto(Long id, String calle, int numero, String localidad, String provincia) {
+        this.id = id;
         this.calle = calle;
         this.numero = numero;
         this.localidad = localidad;
@@ -52,9 +53,10 @@ public class DomicilioDto {
     public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
+
     @Override
     public String toString() {
-        return  "Calle: " + calle + " - Numero: " + numero + " - Localidad: " + localidad + " - Provincia: " + provincia;
+        return "Calle: " + calle + " - Numero: " + numero + " - Localidad: " + localidad + " - Provincia: " + provincia;
     }
 
 }

@@ -2,6 +2,7 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Turno;
+
 import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -12,7 +13,7 @@ public class TurnoDto {
     private String odontologo;
     private LocalDateTime fechaHoraTurno;
 
-    public TurnoDto(){
+    public TurnoDto() {
 
     }
 
@@ -51,9 +52,9 @@ public class TurnoDto {
         this.fechaHoraTurno = fechaHoraTurno;
     }
 
-    public static TurnoDto fromTurno (Turno turno){
-        String paciente = "Nombre: " + turno.getPaciente().getNombre() +" - Apellido: " + turno.getPaciente().getApellido();
-        String odontologo = "Nombre: " + turno.getOdontologo().getNombre() +" - Apellido: " + turno.getOdontologo().getApellido();
-        return new TurnoDto(turno.getId(), paciente,odontologo, turno.getFechaHoraTurno());
+    public static TurnoDto fromTurno(Turno turno) {
+        String paciente = "Nombre: " + turno.getPaciente().getNombre() + " - Apellido: " + turno.getPaciente().getApellido();
+        String odontologo = "Nombre: " + turno.getOdontologo().getNombre() + " - Apellido: " + turno.getOdontologo().getApellido();
+        return new TurnoDto(turno.getId(), paciente, odontologo, turno.getFechaHoraTurno());
     }
 }
