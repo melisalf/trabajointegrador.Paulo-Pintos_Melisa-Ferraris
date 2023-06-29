@@ -44,10 +44,7 @@ const buscarTButton = document.getElementById('buscarT');
 // Event listeners para los botones
 listarPButton.addEventListener('click', listarPacientes);
 agregarPButton.addEventListener('click', registrarPaciente);
-buscarPButton.addEventListener('click', function(event) {
-  event.preventDefault(); // Evitar comportamiento predeterminado del botón
-  listarPacientes();
-});
+buscarPButton.addEventListener('click', buscarPacientePorId);
 
 
 listarOButton.addEventListener('click', listarOdontologos);
@@ -107,6 +104,27 @@ function listar(url, id) {
       console.error('Error:', error);
       document.getElementById('contenedorRespuesta').innerHTML = "<div>ERROR</div>";
 
+    });
+}
+
+
+function eliminarPorId(url, id) {
+  fetch(url + id, {
+    method: 'DELETE'
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log('Elemento eliminado correctamente');
+        document.getElementById('contenedorRespuesta').innerHTML = "<div>Elemento eliminado correctamente</div>";
+      } else {
+        console.log("ERROR " + response.status);
+        document.getElementById('contenedorRespuesta').innerHTML = "<div>ERROR</div>";
+        alert("ERROR " + response.status);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementById('contenedorRespuesta').innerHTML = "<div>ERROR</div>";
     });
 }
 
@@ -180,6 +198,14 @@ function buscarPacientePorId(){
 
     let id = idP.value;
     listar("http://localhost:8080/pacientes/", id);
+}
+
+
+
+function eliminarPacientePorId(){
+
+    let id = idP.value;
+    listar("http://localhost:8080/pacientes/eliminar", id);
 }
 
 function registrarOdontologo() {
