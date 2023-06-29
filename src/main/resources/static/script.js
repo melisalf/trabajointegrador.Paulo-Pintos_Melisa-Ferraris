@@ -231,6 +231,13 @@ function buscarOdontologoPorId(){
     listar("http://localhost:8080/odontologos/", id);
 }
 
+function eliminarOdontologoPorId(){
+
+    let id = idO.value;
+    listar("http://localhost:8080/odontologos/eliminar", id);
+}
+
+
 function guardarTurno() {
   // Obtener los valores de los campos de entrada
   let turno = {
@@ -252,6 +259,14 @@ function buscarTurnoPorId(){
     let id = idT.value;
     listar("http://localhost:8080/turnos/", id);
 }
+
+function eliminarTurnoPorId(){
+
+    let id = idT.value;
+    listar("http://localhost:8080/turnos/eliminar", id);
+}
+
+
 
 
 /// cierre
