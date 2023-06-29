@@ -81,8 +81,8 @@ function enviarDatos(url, datos) {
   })
   .catch(error => {
      console.error('Error:', error);
-      console.error('Error en la respuesta:', response.status);
-      console.error('Contenido del error:', response.statusText);
+      console.error('Error en la respuesta:', error.status);
+      console.error('Contenido del error:', error.statusText);
   });
 }
 
