@@ -29,7 +29,6 @@ public class Paciente {
     @NotBlank(message = "Debe Especificar El DNI Del Paciente")
     private String dni;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @FutureOrPresent
     @NotNull(message = "Se Debe Rellenar Este Campo")
     private LocalDate fechaIngreso;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
