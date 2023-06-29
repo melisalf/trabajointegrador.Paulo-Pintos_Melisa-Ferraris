@@ -4,64 +4,92 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-}
-
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-h1, h2 {
-  color: #333;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #337ab7;
+  background-image: linear-gradient(to bottom, #536976, #292E49);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
-
-input[type="text"],
-input[type="date"] {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-input[type="text"]:focus,
-input[type="date"]:focus {
-  outline: none;
-  border-color: #337ab7;
-}
-
-label {
-  font-weight: bold;
-}
-
-/* Estilos específicos */
 
 header {
-  background-color: #f5f5f5;
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 20px;
-  text-align: center;
+}
+
+header h1 {
+  margin: 0;
 }
 
 main {
   padding: 20px;
 }
 
-td {
-  padding: 40px;
-  vertical-align: top;
+table {
+  width: 100%;
 }
 
+td {
+  vertical-align: top;
+  padding: 10px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="text"],
+input[type="text"] {
+  padding: 5px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #555;
+}
 
 #contenedorRespuesta {
   margin-top: 20px;
+}
+
+/* Animaciones */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1s;
+}
+
+.slideIn {
+  animation: slideIn 1s;
 }
 
 /* Estilos para el diseño responsivo */

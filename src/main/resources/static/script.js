@@ -32,28 +32,33 @@ const idTInput = document.getElementById('idT');
 const listarPButton = document.getElementById('listarP');
 const agregarPButton = document.getElementById('agregarP');
 const buscarPButton = document.getElementById('buscarP');
+const eliminarPButton = document.getElementById('eliminarP');
 
 const listarOButton = document.getElementById('listarO');
 const agregarOButton = document.getElementById('agregarO');
 const buscarOButton = document.getElementById('buscarO');
+const eliminarOButton = document.getElementById('eliminarO');
 
 const listarTButton = document.getElementById('listarT');
 const agregarTButton = document.getElementById('agregarT');
 const buscarTButton = document.getElementById('buscarT');
-
+const eliminarTButton = document.getElementById('eliminarT');
 // Event listeners para los botones
 listarPButton.addEventListener('click', listarPacientes);
 agregarPButton.addEventListener('click', registrarPaciente);
 buscarPButton.addEventListener('click', buscarPacientePorId);
+eliminarPButton.addEventListener('click', eliminarPacientePorId);
 
 
 listarOButton.addEventListener('click', listarOdontologos);
 agregarOButton.addEventListener('click', registrarOdontologo);
 buscarOButton.addEventListener('click', buscarOdontologoPorId);
+eliminarOButton.addEventListener('click', eliminarOdontologoPorId);
 
 listarTButton.addEventListener('click', listarTodos);
 agregarTButton.addEventListener('click', guardarTurno);
 buscarTButton.addEventListener('click', buscarTurnoPorId);
+eliminarTButton.addEventListener('click', eliminarTurnoPorId);
 
 
 
@@ -106,7 +111,6 @@ function listar(url, id) {
 
     });
 }
-
 
 function eliminarPorId(url, id) {
   fetch(url + id, {
@@ -199,13 +203,10 @@ function buscarPacientePorId(){
     let id = idP.value;
     listar("http://localhost:8080/pacientes/", id);
 }
-
-
-
 function eliminarPacientePorId(){
 
-    let id = idP.value;
-    listar("http://localhost:8080/pacientes/eliminar", id);
+    let id3 = idP.value;
+    eliminarPorId("http://localhost:8080/pacientes/eliminar/", id3);
 }
 
 function registrarOdontologo() {
@@ -230,13 +231,11 @@ function buscarOdontologoPorId(){
     let id = idO.value;
     listar("http://localhost:8080/odontologos/", id);
 }
-
 function eliminarOdontologoPorId(){
 
-    let id = idO.value;
-    listar("http://localhost:8080/odontologos/eliminar", id);
+    let id2 = idO.value;
+    eliminarPorId("http://localhost:8080/odontologos/eliminar/", id2);
 }
-
 
 function guardarTurno() {
   // Obtener los valores de los campos de entrada
@@ -263,10 +262,8 @@ function buscarTurnoPorId(){
 function eliminarTurnoPorId(){
 
     let id = idT.value;
-    listar("http://localhost:8080/turnos/eliminar", id);
+    eliminarPorId("http://localhost:8080/turnos/eliminar/", id);
 }
-
-
 
 
 /// cierre

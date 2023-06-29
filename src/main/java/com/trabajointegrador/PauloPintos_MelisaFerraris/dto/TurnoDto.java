@@ -1,5 +1,6 @@
 package com.trabajointegrador.PauloPintos_MelisaFerraris.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Turno;
 
@@ -11,6 +12,8 @@ public class TurnoDto {
     private Long id;
     private String paciente;
     private String odontologo;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime fechaHoraTurno;
 
     public TurnoDto() {
