@@ -30,7 +30,6 @@ public class OdontologoService implements IOdontologoService {
     public OdontologoDto buscarOdontologoPorId(Long id) throws ResourceNotFoundException {
         Odontologo odontologoEncontrado = odontologoRepository.findById(id).orElse(null);
         OdontologoDto odontologoDto = null;
-
         if (odontologoEncontrado != null) {
             odontologoDto = mapper.convertValue(odontologoEncontrado, OdontologoDto.class);
             LOGGER.info("Odontologo Encontrado :{}", odontologoDto);
@@ -59,7 +58,7 @@ public class OdontologoService implements IOdontologoService {
     public OdontologoDto registrarOdontologo(Odontologo odontologo) {
         Odontologo nuevoOdontologo = odontologoRepository.save(odontologo);
         OdontologoDto nuevoOdontologoDto = mapper.convertValue(nuevoOdontologo, OdontologoDto.class);
-        LOGGER.info("Odontologo Registrado Con Exito {}", nuevoOdontologoDto);
+        LOGGER.info("Odontologo Registrado Con Exito :{}",  nuevoOdontologoDto);
 
         return nuevoOdontologoDto;
     }

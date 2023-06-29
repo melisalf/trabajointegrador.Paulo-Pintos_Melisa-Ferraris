@@ -39,14 +39,12 @@ public class Paciente {
     public Paciente() {
     }
 
-
     public Paciente(String nombre, String apellido, String dni, LocalDate fechaIngreso, Domicilio domicilio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.fechaIngreso = fechaIngreso;
         this.domicilio = domicilio;
-
     }
 
 

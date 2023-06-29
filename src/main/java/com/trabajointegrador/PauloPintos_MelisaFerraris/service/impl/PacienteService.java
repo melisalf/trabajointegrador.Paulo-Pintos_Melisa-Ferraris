@@ -3,7 +3,6 @@ package com.trabajointegrador.PauloPintos_MelisaFerraris.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.DomicilioDto;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.dto.PacienteDto;
-import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Domicilio;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.entity.Paciente;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.BadRequestException;
 import com.trabajointegrador.PauloPintos_MelisaFerraris.exceptions.ResourceNotFoundException;
@@ -38,8 +37,8 @@ public class PacienteService implements IPacienteService {
                     return new PacienteDto(paciente.getId(), paciente.getNombre(), paciente.getApellido(), paciente.getDni(), paciente.getFechaIngreso(), domicilioDto);
                 })
                 .toList();
-
         LOGGER.info("Lista de todos los pacientes :{}", pacienteDtos);
+
         return pacienteDtos;
 
     }
@@ -64,20 +63,17 @@ public class PacienteService implements IPacienteService {
 
     @Override
     public PacienteDto guardarPaciente(Paciente paciente) throws BadRequestException {
-        Domicilio domicilio = paciente.getDomicilio();
-        PacienteDto nuevoPacienteDto = null;
-        if (domicilio != null) {
+        if (paciente.getDomicilio() == null) {
+            LOGGER.error("Se debe indicar un domicilio para el Paciente");
+            throw new BadRequestException("Debe Especificar Un Domicilio Para El Paciente A Registar");
+        } else {
             Paciente nuevoPaciente = pacienteRepository.save(paciente);
-            DomicilioDto domicilioDto = mapper.convertValue(domicilio, DomicilioDto.class);
-            nuevoPacienteDto = mapper.convertValue(nuevoPaciente, PacienteDto.class);
+            DomicilioDto domicilioDto = mapper.convertValue(nuevoPaciente.getDomicilio(), DomicilioDto.class);
+            PacienteDto nuevoPacienteDto = mapper.convertValue(nuevoPaciente, PacienteDto.class);
             nuevoPacienteDto.setDomicilioDto(domicilioDto);
             LOGGER.info("Paciente Guardado Con Exito {}", nuevoPacienteDto);
-        } else {
-            LOGGER.error("Se debe indicar un domicilio");
-            throw new BadRequestException("Debe Especificar Un Domicilio Para El Paciente A Registar");
+            return nuevoPacienteDto;
         }
-        return nuevoPacienteDto;
-
     }
 
     @Override
@@ -88,15 +84,15 @@ public class PacienteService implements IPacienteService {
         if (pacienteAActualizar != null) {
             pacienteAActualizar = paciente;
             pacienteRepository.save(pacienteAActualizar);
-
             DomicilioDto domicilioDto = mapper.convertValue(pacienteAActualizar.getDomicilio(), DomicilioDto.class);
             pacienteActualizadoDto = mapper.convertValue(pacienteAActualizar, PacienteDto.class);
             pacienteActualizadoDto.setDomicilioDto(domicilioDto);
             LOGGER.info("Paciente actualizado con exito: {}", pacienteActualizadoDto);
         } else {
             LOGGER.error("No se encontro el paciente con el id indicado");
-            throw new ResourceNotFoundException("No Existe El Paciente Con El ID Especificado");
+            throw new ResourceNotFoundException ("No Existe El Paciente Con El ID Especificado");
         }
+
         return pacienteActualizadoDto;
     }
 

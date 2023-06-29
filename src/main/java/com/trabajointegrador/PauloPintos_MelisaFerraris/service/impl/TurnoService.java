@@ -37,8 +37,6 @@ public class TurnoService implements ITurnoService {
         TurnoDto turnoDto = null;
         PacienteDto paciente = pacienteService.buscarPacientePorId(turno.getPaciente().getId());
         OdontologoDto odontologo = odontologoService.buscarOdontologoPorId(turno.getOdontologo().getId());
-        LOGGER.info("paciente");
-        LOGGER.info("odontologo");
 
         if (paciente == null || odontologo == null) {
             if (paciente == null && odontologo == null) {
