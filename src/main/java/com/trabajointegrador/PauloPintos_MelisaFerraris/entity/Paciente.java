@@ -30,6 +30,7 @@ public class Paciente {
     private String dni;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Se Debe Rellenar Este Campo")
+    @FutureOrPresent (message = "La fecha de ingreso no debe ser anterior al dia de hoy")
     private LocalDate fechaIngreso;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "domicilio_id")

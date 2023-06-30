@@ -28,7 +28,7 @@ public class Turno {
     @NotNull(message = "Debe especificarse la fecha y hora del turno")
     private LocalDateTime fechaHoraTurno;
 
-    public Turno() {
+    public Turno(LocalDateTime of) {
     }
 
     public Paciente getPaciente() {

@@ -42,34 +42,39 @@ class PacienteServiceTest {
         @Test
         @Order(3)
         void noDeberiaRegistrarPaciente_porQueElFormatoDniEsIncorrecto() {
-                Paciente pacienteAGuardar = new Paciente("Federico", "Gomez", "33614208732", LocalDate.of(2023, 02, 12), new Domicilio("Rioja", 28469, "Rosario", "Entre Rios"));
-
+                Paciente pacienteAGuardar = new Paciente("Federico", "Gomez", "3361420000008732", LocalDate.of(2023, 11, 12), new Domicilio("Rioja", 28469, "Rosario", "Entre Rios"));
                 Assertions.assertThrows(ConstraintViolationException.class, () -> pacienteService.guardarPaciente(pacienteAGuardar));
-
         }
 
         @Test
         @Order(4)
+        void noDeberiaRegistrarPaciente_FechaAnteriorAHoy(){
+                Paciente pacienteAGuardar = new Paciente("Federico", "Gomez", "33687232", LocalDate.of(2023, 02, 12), new Domicilio("Rioja", 28469, "Rosario", "Entre Rios"));
+                Assertions.assertThrows(ConstraintViolationException.class, () -> pacienteService.guardarPaciente(pacienteAGuardar));
+        }
+
+        @Test
+        @Order(5)
         void deberiaListarUnSoloPaciente() {
                 List<PacienteDto> pacienteDtos = pacienteService.listarPacientes();
                 Assertions.assertEquals(1, pacienteDtos.size());
         }
 
         @Test
-        @Order(5)
+        @Order(6)
         void deberiaEliminarElPacienteoConId1() throws ResourceNotFoundException {
                 pacienteService.eliminarPaciente(1L);
                 Assertions.assertThrows(ResourceNotFoundException.class, () -> pacienteService.eliminarPaciente(1L));
         }
 
         @Test
-        @Order(6)
-        void noDeberiaPermitirEliminarUnOdontologoQueNoSeEncuentreEnLaBaseDeDatos () {
+        @Order(7)
+        void noDeberiaPermitirEliminarUnPacienteQueNoSeEncuentreEnLaBaseDeDatos () {
                 Assertions.assertThrows(ResourceNotFoundException.class, () -> pacienteService.eliminarPaciente(1L));
         }
 
         @Test
-        @Order(7)
+        @Order(8)
         void volverAComprobarQueLaListaPacienteEstaVacia(){
                 Assertions.assertTrue(pacienteService.listarPacientes().isEmpty());
         }

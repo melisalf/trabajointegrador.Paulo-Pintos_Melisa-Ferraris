@@ -71,7 +71,7 @@ public class PacienteService implements IPacienteService {
             DomicilioDto domicilioDto = mapper.convertValue(nuevoPaciente.getDomicilio(), DomicilioDto.class);
             PacienteDto nuevoPacienteDto = mapper.convertValue(nuevoPaciente, PacienteDto.class);
             nuevoPacienteDto.setDomicilioDto(domicilioDto);
-            LOGGER.info("Paciente Guardado Con Exito {}", nuevoPacienteDto);
+            LOGGER.info("Paciente Registrado Con Exito {}", nuevoPacienteDto);
             return nuevoPacienteDto;
         }
     }

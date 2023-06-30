@@ -15,7 +15,7 @@ public class Odontologo {
     @Size(max = 50, message = "Se Permite Hasta 50 Caracteres")
     @NotNull(message = "Se Debe Rellenar Este Campo")
     @NotBlank(message = "Debe Especificar El Numero De Matricula")
-    @Pattern(regexp = "^[A-Z]{2}-\\d{1,3}\\d*$")
+    @Pattern(regexp = "^[A-Z]{2}-\\d{1,3}\\d*$", message="La matricula debe cumplir con el formato")
     private String matricula;
     @Size(max = 50, message = "Se Permite Hasta 50 Caracteres")
     @NotNull(message = "Se Debe Rellenar Este Campo")
