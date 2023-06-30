@@ -49,9 +49,23 @@ class TurnoServiceTest {
         Assertions.assertEquals(turnoDto.getOdontologo(),"Nombre: " + odontologoDto.getNombre() + " - Apellido: " + odontologoDto.getApellido());
 
     }
-
     @Test
     @Order(2)
+    void deberiaEliminarElTurnoConId1()throws BadRequestException,ResourceNotFoundException{
+
+        Paciente paciente = new Paciente("Tomas", "Gomez", "33614202", LocalDate.of(2023, 8, 12), new Domicilio("Rioja", 28469, "Rosario", "Entre Rios"));
+        Odontologo odontologo = new Odontologo("FK-4344426", "Pablo", "Cornejo");
+
+        PacienteDto pacienteDto= pacienteService.guardarPaciente(paciente);
+        OdontologoDto odontologoDto = odontologoService.registrarOdontologo(odontologo);
+
+        TurnoDto turnoDto = turnoService.guardarTurno(new Turno(LocalDateTime.of(LocalDate.of(2024,11,20), LocalTime.of(15, 20)), odontologo, paciente));
+        turnoService.eliminarTurno(1L);
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> turnoService.eliminarTurno(1L));
+
+    }
+    @Test
+    @Order(3)
     void noDeberiaInsertarUnTurno_laFechaHoraTurnoEsAnteriorAHoy() throws BadRequestException {
         Paciente paciente = new Paciente("Tomas", "Gomez", "33614202", LocalDate.of(2023, 8, 12), new Domicilio("Rioja", 28469, "Rosario", "Entre Rios"));
         Odontologo odontologo = new Odontologo("FK-4344426", "Pablo", "Cornejo");
