@@ -13,6 +13,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,18 +30,14 @@ class TurnoServiceTest {
     @Autowired
     private OdontologoService odontologoService;
 
-    private static Paciente paciente;
-    private static Odontologo odontologo;
 
-    @BeforeAll
-    public static void init (){
-        paciente = new Paciente("Tomas", "Gomez", "33614202", LocalDate.of(2023, 8, 12), new Domicilio("Rioja", 28469, "Rosario", "Entre Rios"));
-        odontologo = new Odontologo("FK-4344426", "Pablo", "Cornejo");
-    }
 
     @Test
     @Order(1)
     void deberiaInsertarUnTurno() throws BadRequestException, ResourceNotFoundException {
+        Paciente paciente = new Paciente("Tomas", "Gomez", "33614202", LocalDate.of(2023, 8, 12), new Domicilio("Rioja", 28469, "Rosario", "Entre Rios"));
+        Odontologo odontologo = new Odontologo("FK-4344426", "Pablo", "Cornejo");
+
         PacienteDto pacienteDto= pacienteService.guardarPaciente(paciente);
         OdontologoDto odontologoDto = odontologoService.registrarOdontologo(odontologo);
 
@@ -53,8 +50,18 @@ class TurnoServiceTest {
 
     }
 
+    @Test
+    @Order(2)
+    void noDeberiaInsertarUnTurno_laFechaHoraTurnoEsAnteriorAHoy() throws BadRequestException {
+        Paciente paciente = new Paciente("Tomas", "Gomez", "33614202", LocalDate.of(2023, 8, 12), new Domicilio("Rioja", 28469, "Rosario", "Entre Rios"));
+        Odontologo odontologo = new Odontologo("FK-4344426", "Pablo", "Cornejo");
 
+        OdontologoDto odontologoDto = odontologoService.registrarOdontologo(odontologo);
+        PacienteDto pacienteDto= pacienteService.guardarPaciente(paciente);
 
+        Assertions.assertThrows(ConstraintViolationException.class, () -> turnoService.guardarTurno(new Turno(LocalDateTime.of(LocalDate.of(2022,11,20), LocalTime.of(15, 20)), odontologo, paciente)));
+
+    }
 
 
 }
