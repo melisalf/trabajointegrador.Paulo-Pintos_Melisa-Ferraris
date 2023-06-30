@@ -8,6 +8,7 @@ console.log('DOM Cargado');
 
 
 // Obtener referencias a los elementos del DOM
+const idInput = document.getElementById('id');
 const nombreInput = document.getElementById('nombre');
 const apellidoInput = document.getElementById('apellido');
 const dniInput = document.getElementById('dni');
@@ -28,11 +29,13 @@ const fechaHoraTurnoInput = document.getElementById('fechaHoraTurno');
 const idPInput = document.getElementById('idP');
 const idOInput = document.getElementById('idO');
 const idTInput = document.getElementById('idT');
+const idPAInput = document.getElementById('idPA');
 
 const listarPButton = document.getElementById('listarP');
 const agregarPButton = document.getElementById('agregarP');
 const buscarPButton = document.getElementById('buscarP');
 const eliminarPButton = document.getElementById('eliminarP');
+const actualizarPButton = document.getElementById('actualizarP');
 
 const listarOButton = document.getElementById('listarO');
 const agregarOButton = document.getElementById('agregarO');
@@ -48,6 +51,7 @@ listarPButton.addEventListener('click', listarPacientes);
 agregarPButton.addEventListener('click', registrarPaciente);
 buscarPButton.addEventListener('click', buscarPacientePorId);
 eliminarPButton.addEventListener('click', eliminarPacientePorId);
+actualizarPButton.addEventListener('click', actualizarPacientePorId);
 
 
 listarOButton.addEventListener('click', listarOdontologos);
@@ -120,6 +124,30 @@ function eliminarPorId(url, id) {
       if (response.ok) {
         console.log('Elemento eliminado correctamente');
         document.getElementById('contenedorRespuesta').innerHTML = "<div>Elemento eliminado correctamente</div>";
+      } else {
+        console.log("ERROR " + response.status);
+        document.getElementById('contenedorRespuesta').innerHTML = "<div>ERROR</div>";
+        alert("ERROR " + response.status);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementById('contenedorRespuesta').innerHTML = "<div>ERROR</div>";
+    });
+}
+
+function actualizarPorId(url, id ,datos) {
+  fetch(url + id, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(datos)
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log('Elemento actualizado correctamente');
+        document.getElementById('contenedorRespuesta').innerHTML = "<div>Elemento actualizado correctamente</div>";
       } else {
         console.log("ERROR " + response.status);
         document.getElementById('contenedorRespuesta').innerHTML = "<div>ERROR</div>";
@@ -205,9 +233,28 @@ function buscarPacientePorId(){
 }
 function eliminarPacientePorId(){
 
-    let id3 = idP.value;
-    eliminarPorId("http://localhost:8080/pacientes/eliminar/", id3);
+    let id7 = idP.value;
+    eliminarPorId("http://localhost:8080/pacientes/eliminar/", id7);
 }
+
+function actualizarPacientePorId() {
+  const paciente = {
+    id: idInput.value,
+    nombre: nombreInput.value,
+    apellido: apellidoInput.value,
+    dni: dniInput.value,
+    fechaIngreso: fechaIngresoInput.value,
+    domicilio: {
+      calle: calleInput.value,
+      numero: numeroInput.value,
+      localidad: localidadInput.value,
+      provincia: provinciaInput.value,
+    }
+  };
+  actualizarPorId('http://localhost:8080/pacientes/actualizar', "" , paciente);
+}
+
+
 
 function registrarOdontologo() {
   // Obtener los valores de los campos de entrada
